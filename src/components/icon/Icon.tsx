@@ -12,16 +12,18 @@ export class Icon extends Component {
         height: t.oneOfType([ t.string, t.number ]),
         className: t.string,
         viewBox: t.string,
+        onClick: t.func,
     }
 
     public static defaultProps = {
         fill: colors.lightest,
         width: 40,
         height: 40,
+        onClick: () => {},
     }
 
     public render() {
-        const { name, fill, width, height, className, viewBox } = this.props as any
+        const { name, fill, width, height, className, viewBox, onClick } = this.props as any
         return (
             <ReactSVG
                 src={`assets/${name}`}
@@ -30,7 +32,6 @@ export class Icon extends Component {
                         console.error(error)
                         return
                     }
-                    console.log(svg)
                 }}
                 beforeInjection={svg => {
                     svg.classList.add(className)
@@ -45,9 +46,7 @@ export class Icon extends Component {
                 renumerateIRIElements={false}
                 wrapper="span"
                 className="wrapper-class-name"
-                onClick={() => {
-                    console.log('wrapper onClick')
-                }}
+                onClick={onClick}
             />
         )
     }

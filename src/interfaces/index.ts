@@ -1,2 +1,2 @@
 export * from './NavigationItem'
-export * from './Page'
+export * from './Route'

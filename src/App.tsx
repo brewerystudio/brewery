@@ -3,7 +3,7 @@ import React from 'react'
 import './App.css'
 import { NavigationBar } from './components'
 import ReactFullpage from '@fullpage/react-fullpage'
-import { Page } from './interfaces'
+import { Route } from './interfaces'
 import { Home } from './pages';
 
 AWS.config.update({
@@ -14,7 +14,7 @@ AWS.config.update({
 
 export const DynamoDB = new AWS.DynamoDB()
 
-export const ROUTES:Page[] = [
+export const ROUTES:Route[] = [
     {
         title: 'Home',
         url: '/home',
@@ -30,21 +30,21 @@ const App = () => {
 			/>
 			<div style={{ overflow: 'hidden' }}>
 				<ReactFullpage
+					licenseKey={'YOUR_KEY_HERE'}
 					scrollingSpeed = {1000}
-					navigation
 					render={(props:any) => {
 						// const { state, fullpageApi } = props
 						return (
 							<ReactFullpage.Wrapper>
 								{
-									ROUTES.map((route:Page) => (
-										<div className="section">
+									ROUTES.map((route:Route, idx:number) => (
+										<div key={`pg-${idx}`} className="section">
 											{ route.component }
 										</div>
 									))
 								}
 							</ReactFullpage.Wrapper>
-						);
+						)
 					}}
 				/>
 			</div>

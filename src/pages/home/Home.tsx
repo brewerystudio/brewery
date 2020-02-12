@@ -1,13 +1,18 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { Page } from '../Page'
 
-export class Home extends Component {
+export class Home extends Page {
 
-    render() {
-        return (
-            <div>
-                sadfasdf
-            </div>
-        )
+    public renderDesktop = () => {
+        return <div>
+            Desktop
+        </div>
+    }
+
+    public renderMobile = () => {
+        return <div>
+            Mobile
+        </div>
     }
 
 }

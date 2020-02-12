@@ -5,6 +5,7 @@ import './Hamburgers.css'
 import { Icon } from '../icon/Icon';
 import { LogoName } from '../icon/LogoName';
 import { NavigationItem } from '../../interfaces/NavigationItem';
+import { DeviceUtil } from '../../utils/Device';
 
 export class NavigationBar extends Component {
 
@@ -19,15 +20,24 @@ export class NavigationBar extends Component {
     public state = {
         isNavBarCollapsed: false,
         isNavBarSmall: false,
+        isNavBarTiny: false,
     }
 
     public componentWillMount = () => {
         const RESIZE_THRESH = 992
-        this.setState({ isNavBarSmall: window.innerWidth < RESIZE_THRESH })
-        function handleResize(ts: any) {
-            ts.setState({ isNavBarSmall: window.innerWidth < RESIZE_THRESH })
+        const onResize = (width:number) => {
+            const isNavBarSmall = width < RESIZE_THRESH
+            const isNavBarTiny = !DeviceUtil.isS()
+            if (this.state.isNavBarSmall !== isNavBarSmall && this.state.isNavBarTiny !== isNavBarTiny) {
+                this.setState({ isNavBarSmall, isNavBarTiny })
+            } else if (this.state.isNavBarSmall !== isNavBarSmall) {
+                this.setState({ isNavBarSmall })
+            } else if (this.state.isNavBarTiny !== isNavBarTiny) {
+                this.setState({ isNavBarTiny })
+            }
         }
-        window.addEventListener('resize', () => handleResize(this))
+        onResize(DeviceUtil.getWidth())
+        DeviceUtil.onResize(onResize)
     }
 
     public render() {
@@ -40,7 +50,7 @@ export class NavigationBar extends Component {
                 <Icon name={LogoName.BLogo} width={60} height={60} />
                 </a>
                 <a className={`navbar-brand ${this.state.isNavBarSmall ? 'text-center' : 'text-left'}`} href="/">
-                    <div className="h4 p-0 m-0">Brewery Recording</div>
+                    { !this.state.isNavBarTiny && <div className="h4 p-0 m-0">Brewery Studio</div> }
                     {
                         !this.state.isNavBarSmall &&
                         <div>
@@ -59,8 +69,8 @@ export class NavigationBar extends Component {
                 <div className="collapse navbar-collapse">
                     <ul className="navbar-nav ml-auto" id="menu">
                         {
-                            navigationItems.map((item:NavigationItem) => 
-                                <li className="nav-item" data-menuanchor="Home">
+                            navigationItems.map((item:NavigationItem, idx:number) => 
+                                <li key={`nb-${idx}`} className="nav-item" data-menuanchor="Home">
                                     <a className="nav-link" href={item.url}>{item.title}</a>
                                 </li>
                             )
