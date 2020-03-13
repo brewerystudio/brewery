@@ -1,7 +1,7 @@
 import AWS from 'aws-sdk'
 import React from 'react'
 import './App.css'
-import { NavigationBar } from './components'
+import { NavigationBar, Background, BackgroundName } from './components'
 import ReactFullpage from '@fullpage/react-fullpage'
 import { Route } from './interfaces'
 import { Home } from './pages';
@@ -25,6 +25,7 @@ export const ROUTES:Route[] = [
 const App = () => {
 	return (
 		<div className="App container-fluid p-0">
+			<Background backgroundName={BackgroundName.Landing} position={'fixed'} />
 			<NavigationBar
 				items={ROUTES}
 			/>

@@ -16,7 +16,7 @@ export class Icon extends Component {
     }
 
     public static defaultProps = {
-        fill: colors.lightest,
+        fill: colors.white,
         width: 40,
         height: 40,
         onClick: () => {},

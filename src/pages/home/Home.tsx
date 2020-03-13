@@ -4,9 +4,16 @@ import { Page } from '../Page'
 export class Home extends Page {
 
     public renderDesktop = () => {
-        return <div>
-            Desktop
-        </div>
+        return (
+            <div>
+                <div>
+                    Welcome Home
+                </div>
+                <div>
+                    New York | Los Angeles
+                </div>
+            </div>
+        )
     }
 
     public renderMobile = () => {

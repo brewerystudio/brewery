@@ -1,10 +1,10 @@
 export const colors = {
     // Shades
-	darkest: '#000000',
+	black: '#000000',
 	dark: '#333333',
 	medium: '#737373',
     light: '#F6F7F8',
-    lightest: '#FFFFFF',
+    white: '#FFFFFF',
     
     // Colors
 	primary: '#FF4C4C', 
