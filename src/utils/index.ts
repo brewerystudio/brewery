@@ -1,2 +1,2 @@
-export * from './DBUtil'
+export * from './CMS'
 export * from './Device'

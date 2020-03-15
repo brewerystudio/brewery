@@ -19,7 +19,7 @@ export class Page extends Component {
 
     public state = {
         isDesktop: null
-    }
+    } as any
 
     public renderDesktop():ReactNode {
         return null

@@ -16,6 +16,7 @@
     "@types/react-dom": "^16.9.0",
     "aws-sdk": "^2.614.0",
     "bootstrap": "^4.4.1",
+    "browserify-fs": "^1.0.0",
     "node-sass": "^4.13.1",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
