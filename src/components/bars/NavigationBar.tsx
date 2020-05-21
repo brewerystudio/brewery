@@ -38,15 +38,14 @@ export class NavigationBar extends Component {
             <div ref={r => this.onNavbarResize(r)} className={'navbar-wrapper d-inline-block position-absolute'}>
                 <nav className="navbar navbar-expand-lg navbar-dark position-relative">
                     <a className="navbar-brand" rel="home" href="/" title="Brewery Recording">
-                    <Icon name={LogoName.BLogo} width={50} height={50} />
+                        <Icon name={LogoName.BLogo} width={'2rem'} height={'2rem'} />
                     </a>
                     <a className={`navbar-brand ${this.state.isNavBarSmall ? 'text-center' : 'text-left'}`} href="/">
-                        { !this.state.isNavBarTiny && <div className="h4 p-0 m-0 line-none">Brewery {!this.state.isNavBarSmall ? 'Recording' : ''} Studio</div> }
+                        { !this.state.isNavBarTiny && <div className="h5 p-0 m-0 line-none text-center">Brewery {!this.state.isNavBarSmall ? 'Recording' : ''} Studio</div> }
                         {
                             !this.state.isNavBarSmall &&
                             <div>
-                                <div className="h7 p-0 m-0 line-regular">New York | Los Angeles</div>
-                                <div className="h7 p-0 m-0 line-regular">(844) 717 - 2739</div>
+                                <div className="h7 p-0 m-0 color-medium line-regular">(844) 717-2739</div>
                             </div>
                         }
                     </a>

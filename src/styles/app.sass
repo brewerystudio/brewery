@@ -25,6 +25,9 @@ $clear: transparent
 .App
     text-align: center
 
+.fullpage-wrapper
+    width: 100vw
+
 body
     font-family: 'Montserrat', sans-serif
     outline: none
@@ -39,6 +42,9 @@ textarea:focus, input:focus, *:focus
     -webkit-user-select: none
     -o-user-select: none
 
+.clickable
+    cursor: pointer
+
 .wrapper
     width: 100%
     position: relative
@@ -49,6 +55,12 @@ textarea:focus, input:focus, *:focus
 .fullpage
     overflow: hidden
     border: solid 1px red
+
+.animated
+    transition: ease 0.05s
+
+.animated-slow
+    transition: ease 0.5s
 
 .h7
     font-size: 0.8rem
@@ -61,6 +73,21 @@ textarea:focus, input:focus, *:focus
 
 .justify-content-stretch
     justify-content: stretch
+
+/**
+ *  Shadows
+ */
+.shadow-font
+    text-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
+
+
+/**
+ *  Dimensions
+ */
+
+.w-20
+    width: 20%
+
 
 /**
  *  Font Transforms
@@ -121,6 +148,37 @@ textarea:focus, input:focus, *:focus
 
 .color-quaternary
     color: $quaternary
+
+/**
+ *  Backgrounds
+ */
+
+.bg-black
+    background-color: $black
+
+.bg-dark
+    background-color: $dark
+
+.bg-medium
+    background-color: $medium
+
+.bg-light
+    background-color: $light
+
+.bg-white
+    background-color: $white
+
+.bg-primary
+    background-color: $primary
+
+.bg-secondary
+    background-color: $secondary
+
+.bg-tertiary
+    background-color: $tertiary
+
+.bg-quaternary
+    background-color: $quaternary
 
 /**
  *  Line Heights

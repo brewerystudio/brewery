@@ -15,3 +15,8 @@ export const colors = {
     // Other
 	clear: 'transparent',
 }
+
+export enum Studio {
+    NewYork,
+    LosAngeles
+}

@@ -65,7 +65,7 @@ export class Button extends Component {
                     onMouseEnter={this.onHover}
                     onMouseLeave={this.onHoverOut}
                     onClick={this.onClick}
-                    className={'d-flex align-items-center justify-content-start button-wrapper unselectable ' + className}
+                    className={'d-flex align-items-center justify-content-start button-wrapper animated unselectable ' + className}
                     style={{ borderRadius, borderColor, backgroundColor, borderWidth, opacity, transform: `scale(${magnify})` }}
                 >
                     {

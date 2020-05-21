@@ -6,19 +6,17 @@ import './Home.sass'
 
 export class Home extends Page {
 
-    constructor(props:any) {
-        super(props)
-    }
-
     public renderDesktop = () => {
         return (
-            <div className={'wrapper'}>
-                <div>
-                    <div className={'color-white font-title upper display-3'}>
-                        Welcome Home
-                    </div>
-                    <div className={'color-primary font-secondary upper h2'}>
-                        New York | Los Angeles
+            <div className={'wrapper h-75 d-flex flex-column justify-content-between pl-4 pr-4 mt-4 mb-4'}>
+                <div className={'d-flex flex-column justify-content-between pt-4 mt-4'}>
+                    <div className={'mt-4'}>
+                        <div className={'color-white font-title upper display-3'}>
+                            Welcome Home
+                        </div>
+                        <div className={'color-primary font-secondary upper h2'}>
+                            New York | Los Angeles
+                        </div>
                     </div>
                     <div className={'d-inline-block mb-4'}>
                         <Button
@@ -33,7 +31,7 @@ export class Home extends Page {
                         />
                     </div>
                 </div>
-                <footer className={'footer'} ref={r => this.constrainFooter(r)} style={{ height: this.state.footerHeight || 'auto' }}>
+                <footer>
                     <div className={'container pl-4 pr-4'}>
                         <div className={'d-inline-block mb-4 mt-4'}>
                             <Button
@@ -42,8 +40,8 @@ export class Home extends Page {
                                 iconColor={colors.white}
                                 textColor={colors.white}
                                 onClick={this.onInstagram}
-                                fontSize={'3rem'}
-                                iconSize={'3rem'}
+                                fontSize={'2rem'}
+                                iconSize={'2rem'}
                             />
                             <Button
                                 className={'font-secondary ml-1 mr-1'}
@@ -51,8 +49,8 @@ export class Home extends Page {
                                 iconColor={colors.white}
                                 textColor={colors.white}
                                 onClick={this.onFacebook}
-                                fontSize={'3rem'}
-                                iconSize={'3rem'}
+                                fontSize={'2rem'}
+                                iconSize={'2rem'}
                             />
                             <Button
                                 className={'font-secondary ml-1 mr-1'}
@@ -60,14 +58,14 @@ export class Home extends Page {
                                 iconColor={colors.white}
                                 textColor={colors.white}
                                 onClick={this.onTwitter}
-                                fontSize={'3rem'}
-                                iconSize={'3rem'}
+                                fontSize={'2rem'}
+                                iconSize={'2rem'}
                             />
                         </div>
-                        <div className={'color-primary h4 mt-4'}>
+                        <div className={'color-primary h5 mt-2'}>
                             BOUTIQUE MUSIC RECORDING STUDIOS IN BROOKLYN & DTLA
                         </div>
-                        <div className={'color-white font-title h2 small mt-4'}>
+                        <div className={'color-medium font-regular h2 small mt-2'}>
                             America’s only bi-coastal studios with 5 modern recording rooms staffed by NYC and LA’s Platinum selling & Grammy winning engineers & producers, all to deliver the very best service and top amenities for today’s signed artists and independent musicians.
                         </div>
                     </div>
@@ -78,7 +76,7 @@ export class Home extends Page {
 
     public renderMobile = () => {
         return (
-            <div>
+            <div className={'w-100'}>
                 <div className={'color-white font-title upper h1 display-4'}>
                     Welcome Home
                 </div>
@@ -99,13 +97,6 @@ export class Home extends Page {
                 </div>
             </div>
         )
-    }
-
-    private constrainFooter = (element:any) => {
-        if (!this.state.footerHeight) {
-            const rect = element.getBoundingClientRect()
-            this.setState({ footerHeight: `${rect.height + 50}px` })
-        }
     }
 
     private onBookSession = () => {
