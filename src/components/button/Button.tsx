@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import * as t from 'prop-types'
-import { colors } from '../../constants'
+import { colors, addClasses } from '../../constants'
 import { Icon } from '../icon'
 import './Button.sass'
 
@@ -58,25 +58,26 @@ export class Button extends Component {
         const { text, borderRadius, borderWidth, iconName, fontSize, iconSize, className } = (this.props) as any
         const { borderColor, backgroundColor, iconColor, textColor, opacity, magnify } = (this.state) as any
         return (
-            <span className={'d-inline-block'}>
+            <span
+                className={'d-inline-block'}
+            >
                 <div
                     onMouseDown={this.onMouseDown}
                     onMouseUp={this.onMouseUp}
                     onMouseEnter={this.onHover}
                     onMouseLeave={this.onHoverOut}
-                    onClick={this.onClick}
-                    className={'d-flex align-items-center justify-content-start button-wrapper animated unselectable ' + className}
+                    className={addClasses('d-flex align-items-center justify-content-start button-wrapper animated', className)}
                     style={{ borderRadius, borderColor, backgroundColor, borderWidth, opacity, transform: `scale(${magnify})` }}
                 >
                     {
                         iconName &&
-                        <div style={{ marginRight: `${parseInt(fontSize) / 2}rem` }}>
+                        <div className={'unselectable'} style={{ marginRight: `${parseInt(fontSize) / 2}rem` }}>
                             <Icon name={iconName} width={iconSize} height={iconSize} fill={iconColor} />
                         </div>
                     }
                     {
                         text &&
-                        <div className={''} style={{ color: textColor, fontSize }}>
+                        <div className={'unselectable'} style={{ color: textColor, fontSize }}>
                             {text}
                         </div>
                     }
@@ -91,6 +92,8 @@ export class Button extends Component {
         this.buttonState = ButtonState.pressed
         const activeOpacity = (this.props as any).activeOpacity
         this.setState({ opacity: activeOpacity })
+        const onClick = (this.props as any).onClick
+        onClick()
     }
 
     private onMouseUp = () => {
@@ -107,12 +110,6 @@ export class Button extends Component {
     private onHoverOut = () => {
         this.buttonState = ButtonState.normal
         this.setState({ magnify: 1 })
-    }
-
-    private onClick = () => {
-        this.buttonState = ButtonState.normal
-        const onClick = (this.props as any).onClick
-        onClick()
     }
 
 }

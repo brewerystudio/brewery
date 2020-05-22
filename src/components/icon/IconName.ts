@@ -7,4 +7,5 @@ export enum IconName {
     SoundCloud = 'icons/soundcloud.svg',
     Swipe = 'icons/swipe.svg',
     Twitter = 'icons/twitter.svg',
+    Close = 'icons/close.svg',
 }

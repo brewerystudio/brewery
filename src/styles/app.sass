@@ -10,7 +10,7 @@
 $black: #000000
 $dark: #333333
 $medium: #737373
-$light: #F6F7F8
+$light: #D9DADB
 $white: #FFFFFF
 $primary: #FF4C4C
 $secondary: #011627
@@ -57,10 +57,16 @@ textarea:focus, input:focus, *:focus
     border: solid 1px red
 
 .animated
-    transition: ease 0.05s
+    -webkit-transition: all 0.05s ease
+    -moz-transition: all 0.05s ease
+    -o-transition: all 0.05s ease
+    transition: all 0.05s ease
 
 .animated-slow
-    transition: ease 0.5s
+    -webkit-transition: all 0.5s ease
+    -moz-transition: all 0.5s ease
+    -o-transition: all 0.5s ease
+    transition: all 0.5s ease
 
 .h7
     font-size: 0.8rem
@@ -87,6 +93,9 @@ textarea:focus, input:focus, *:focus
 
 .w-20
     width: 20%
+
+.w-65
+    width: 65%
 
 
 /**
@@ -117,6 +126,28 @@ textarea:focus, input:focus, *:focus
 
 .font-tertiary
     font-family: 'Ropa Sans', sans
+
+/**
+ *  Line Height
+ */
+
+.lh-1
+    line-height: 1
+
+.lh-1.05
+    line-height: 1.05
+
+.lh-1.25
+    line-height: 1.25
+
+.lh-1.5
+    line-height: 1.5
+
+.lh-1.75
+    line-height: 1.75
+
+.lh-1.2
+    line-height: 1.75
 
 /**
  *  Colors

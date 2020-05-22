@@ -3,7 +3,7 @@ export const colors = {
 	black: '#000000',
 	dark: '#333333',
 	medium: '#737373',
-    light: '#F6F7F8',
+    light: '#D9DADB',
     white: '#FFFFFF',
     
     // Colors
@@ -14,9 +14,4 @@ export const colors = {
     
     // Other
 	clear: 'transparent',
-}
-
-export enum Studio {
-    NewYork,
-    LosAngeles
 }

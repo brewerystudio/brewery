@@ -1,2 +1,3 @@
 export * from './colors'
-export * from './extensions'
+export * from './util'
+export * from './colors'
