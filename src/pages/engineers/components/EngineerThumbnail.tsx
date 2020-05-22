@@ -1,14 +1,18 @@
 import React, { Component } from 'react'
 import * as t from 'prop-types'
 import '../Engineers.sass'
-import { colors, addClasses, removeClasses } from '../../../constants'
-import { Engineer, ScreenSize } from '../../../interfaces'
+import { colors } from '../../../constants'
+import { Engineer } from '../../../interfaces'
 import { Button, IconName } from '../../../components'
 import { Navigation } from '../../../utils'
 
 export class EngineerThumbnail extends Component {
 
     private container!:HTMLDivElement
+    private content!:HTMLDivElement
+    private boundingBox!:DOMRect
+
+    private animationSpeed = 250 // milliseconds
 
     public state = {
         /** Was the thumbnail opened into view mode? */
@@ -17,32 +21,31 @@ export class EngineerThumbnail extends Component {
 
     public componentDidUpdate = () => {
         const isOpen:boolean = this.state.isOpen
-        const FULLSCREEN_CLASS = 'engineer-thumbnail-fullscreen'
         if (isOpen) {
-            this.fullScreen()
-            // this.container.className = addClasses(this.container.className, FULLSCREEN_CLASS)
+            this.toFullScreen()
         } else {
-            // this.container.className = removeClasses(this.container.className, FULLSCREEN_CLASS)
+            this.toThumbnail()
         }
     }
 
     public render = () => {
-        const screenSize:ScreenSize = (this.props as any).screenSize
         const engineer:Engineer = (this.props as any).engineer
 
         const isOpen:boolean = this.state.isOpen
 
         return (
-            <div ref={r => this.container = r!} onClick={!isOpen ? this.open : undefined} onMouseOver={this.onHoverThumbnail} onMouseOut={this.onOutThumbnail} className={'engineer-thumbnail position-relative d-flex flex-column justify-content-end animated-slow'}>
+            <div ref={r => this.container = r!} onClick={!isOpen ? this.open : undefined} onMouseOver={this.onHoverThumbnail} onMouseOut={this.onOutThumbnail} className={'engineer-thumbnail position-relative d-flex flex-column justify-content-end p-0 m-0'}
+                style={ { cursor: isOpen ? 'default' : 'pointer' } }
+            >
                 {
                     isOpen ?
-                    <div className={'d-flex flex-column justify-content-center text-left p-4 pt-4 mt-4 h-100 w-65'}>
+                    <div ref={r => this.content = r!} className={'d-flex flex-column justify-content-center text-left pt-4 mt-4 pl-4 pr-4 h-100 w-65'}>
                         <div className={'d-inline-block mt-4 mb-2'}>
                             <Button
                                 iconName={IconName.Close}
                                 iconColor={colors.light}
                                 onClick={this.close}
-                                iconSize={'1.4rem'}
+                                iconSize={'1rem'}
                             />
                         </div>
                         <div className={'font-title color-white mt-4 h1 upper mb-0 lh-1'}>{engineer.name}</div>
@@ -107,7 +110,7 @@ export class EngineerThumbnail extends Component {
                         <div className={'font-light h8 color-light w-100 text-left ml-2 mb-2 upper unselectable'}>{engineer.title}</div>
                     </div>
                 }
-                <img className={'engineer-thumbnail-image'} src={engineer.photoURL} alt={engineer.name} style={{
+                <img className={'engineer-thumbnail-image p-0 m-0'} src={engineer.photoURL} alt={engineer.name} style={{
                     opacity: isOpen ? '1' : '0.9'
                 }} />
             </div>
@@ -142,32 +145,90 @@ export class EngineerThumbnail extends Component {
         this.setState({ isOpen: false })
     }
 
-    private fullScreen = () => {
-        const box = $(this.container)
+    private toFullScreen = () => {
     
         // Get its position
-        const pos = $(box).position()
-        const height = $(box).height
-        const width = $(box).width
+        this.boundingBox = this.container.getBoundingClientRect()
     
-        // Set the position of our box (not holder)
-        // Give it absolute position (eg. outside our set structure)
-        $(box).css({
-            "position": 'absolute',
-            "left": `${pos.left}px`,
-            "top": `${pos.top}px`,
-            'height': `${height}px`,
-            'width': `${width}px`,
+        $(this.container).parent().css({
+            padding: 0,
+            margin: 0,
+        })
+
+        // Create a decoy
+        const decoyParent = $(this.container).parent().clone()
+        decoyParent.addClass('decoy')
+        decoyParent.click(false)
+        
+        $(this.container).parent().css({
+            position: 'absolute',
+            top: '0',
+            left: '0',
+            width: '100%',
+            height: '100%',
             'z-index': '2',
         })
-    
-        // Animate the position
-        $(box).animate({
-            'top': 0,
-            'left': 0,
-            'width': `${window.innerWidth}px`,
-            'height': `${window.innerHeight}px`,
-        }, 500)
+
+        $(this.container).css({
+            position: 'absolute',
+            left: `${this.boundingBox.left}px`,
+            top: `${this.boundingBox.top}px`,
+            height: `${this.boundingBox.height}px`,
+            width: `${this.boundingBox.width}px`,
+            opacity: 0,
+        })
+        // Insert the decoy in the parent's place
+        decoyParent.insertAfter($(this.container).parent())
+        $(this.container).animate({
+            top: 0,
+            left: 0,
+            width: `100vw`,
+            height: `100vh`,
+            opacity: 1,
+        }, this.animationSpeed)
+
+        // Animate content
+        if (this.content) {
+            $(this.content).css('opacity', '0')
+            setTimeout(() => {
+                $(this.content).animate({ opacity: 1 }, this.animationSpeed)
+            }, this.animationSpeed)
+        }
+    }
+
+    private toThumbnail = () => {
+        if (!this.boundingBox) {
+            return
+        }
+        $(this.container).animate({
+            left: `${this.boundingBox.left}px`,
+            top: `${this.boundingBox.top}px`,
+            height: `${this.boundingBox.height}px`,
+            width: `${this.boundingBox.width}px`,
+        }, this.animationSpeed)
+        // Destroy decoys
+        $('.decoy').animate({
+            width: '0px',
+        }, this.animationSpeed)
+        setTimeout(() => {
+            $('.decoy').remove()
+            $(this.container).parent().css({
+                position: 'relative',
+                top: '0',
+                left: '0',
+                width: 'auto',
+                height: 'auto',
+                padding: 'auto',
+                margin: 'auto',
+                'z-index': '0',
+            })
+            $(this.container).css({
+                position: 'relative',
+                top: '0',
+                left: '0',
+                width: `${this.boundingBox.width}px`,
+            })
+        }, this.animationSpeed * 1.1)
     }
 
     private onHoverThumbnail = (e:any) => {
@@ -186,12 +247,7 @@ export class EngineerThumbnail extends Component {
     }
 
     static propTypes = {
-        screenSize: t.oneOf([ScreenSize.Desktop, ScreenSize.Mobile]),
         engineer: t.any.isRequired,
-    }
-
-    static defaultProps = {
-        screenSize: ScreenSize.Desktop,
     }
     
 }

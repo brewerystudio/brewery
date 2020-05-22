@@ -1,4 +1,4 @@
 export enum Studio {
-    NewYork,
-    LosAngeles
+    NewYork = 'NewYork',
+    LosAngeles = 'LosAngeles'
 }
