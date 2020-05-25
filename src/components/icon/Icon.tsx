@@ -23,7 +23,7 @@ export class Icon extends Component {
     }
 
     public render() {
-        const { name, fill, width, height, className, viewBox, onClick } = this.props as any
+        const { name, fill, width, height, className, onClick } = this.props as any
         return (
             <ReactSVG
                 src={`assets/${name}`}
@@ -36,9 +36,13 @@ export class Icon extends Component {
                 beforeInjection={svg => {
                     svg.classList.add(className)
                     svg.setAttribute('fill', fill)
-                    width && svg.setAttribute('width', width)
-                    height && svg.setAttribute('height', height)
-                    viewBox && svg.setAttribute('viewBox', viewBox)
+                    if (width) {
+                        svg.setAttribute('width', width)
+                        svg.setAttribute('height', "")
+                    } else if (height) {
+                        svg.setAttribute('width', "")
+                        svg.setAttribute('height', height)
+                    }
                 }}
                 evalScripts="always"
                 fallback={() => <span>Error!</span>}

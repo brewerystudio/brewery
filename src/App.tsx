@@ -3,8 +3,9 @@ import React, { Component } from 'react'
 import { NavigationBar, Background, BackgroundName } from './components'
 import ReactFullpage from '@fullpage/react-fullpage'
 import { Route } from './interfaces'
-import { Home, Gallery, Clients, Engineers } from './pages'
+import { Home, Gallery, Clients, Engineers, Info } from './pages'
 import { colors } from './constants'
+import { Navigation } from './utils'
 import './styles/app.sass'
 
 AWS.config.update({
@@ -35,21 +36,28 @@ export const ROUTES:Route[] = [
         title: 'Engineers',
         url: '/engineers',
         component: <Engineers />
+    },
+    {
+        title: 'Info',
+        url: '/info',
+        component: <Info />
     }
 ]
 
 export class App extends Component {
 
+	private fullPage!:any
+	private bg!:Background
+
 	public state = {
 		navbarHeight: 0,
-		background: BackgroundName.Landing,
 	}
 	
 	public render = () => {
 		const paddingTop = (this.state as any).navbarHeight
 		return (
 			<div className={"App container-fluid p-0 d-flex flex-row justify-content-stretch"}>
-				<Background backgroundName={this.state.background} position={'fixed'} overlayColor={colors.black} overlayOpacity={0.5} />
+				<Background ref={r => this.bg = r!} initialBackgroundName={BackgroundName.Landing} position={'fixed'} overlayColor={colors.black} overlayOpacity={0.5} />
 				<NavigationBar
 					items={ROUTES}
 					onResize={this.onNavbarResize}
@@ -60,7 +68,8 @@ export class App extends Component {
 					paddingTop={paddingTop}
 					onLeave={this.onLeave}
 					render={(props:any) => {
-						// const { state, fullpageApi } = props
+						const { fullpageApi } = props
+						this.fullPage = fullpageApi
 						return (
 							<ReactFullpage.Wrapper>
 								{
@@ -75,6 +84,7 @@ export class App extends Component {
 							</ReactFullpage.Wrapper>
 						)
 					}}
+					afterRender={() => setTimeout(this.moveToPageInPath, 1)}
 				/>
 			</div>
 		)
@@ -87,14 +97,34 @@ export class App extends Component {
 	private onLeave = (origin:any, destination:any, direction:'up'|'down') => {
 						
 		// Change background
-		if ((origin.index === 0 && destination.index === 1) || (origin.index === 1 && destination.index === 2)) {
-			setTimeout(() => this.setState({ background: BackgroundName.Microphone }), 1000)
-		} else if (origin.index === 2 && destination.index === 1) {
-			setTimeout(() => this.setState({ background: BackgroundName.Landing }), 1000)
-		} else if (origin.index === 2 && destination.index === 3) {
-			setTimeout(() => this.setState({ background: BackgroundName.Table }), 1000)
+		if ((destination.index === 1) || (origin.index === 1 && destination.index === 2)) {
+			this.bg.changeBackgroundName(BackgroundName.Microphone)
+		} else if (destination.index === 1) {
+			this.bg.changeBackgroundName(BackgroundName.Landing)
+		} else if (destination.index === 3) {
+			this.bg.changeBackgroundName(BackgroundName.Table)
+		} else if (destination.index === 4) {
+			this.bg.changeBackgroundName(BackgroundName.Lounge)
 		}
 
+	}
+
+	private moveToPageInPath = () => {
+		if (!this.fullPage) {
+			return
+		}
+		const path = Navigation.getPath()
+		let index = -1
+		for (let i = 0; i < ROUTES.length; i++) {
+			const route = ROUTES[i]
+			if (route.url.includes(path)) {
+				index = i
+				break
+			}
+		}
+		if (index >= 0) {
+			this.fullPage.silentMoveTo(index + 1)
+		}
 	}
 
 }
