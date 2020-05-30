@@ -8,4 +8,6 @@ export enum IconName {
     Swipe = 'icons/swipe.svg',
     Twitter = 'icons/twitter.svg',
     Close = 'icons/close.svg',
+    NewYork = 'icons/ny.svg',
+    LosAngeles = 'icons/la.svg',
 }

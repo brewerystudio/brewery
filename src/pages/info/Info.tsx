@@ -1,62 +1,352 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Page } from '../Page'
 import './Info.sass'
-import { Icon, IconName } from '../../components'
+
+import { DeviceUtil } from '../../utils'
+import { Icon, IconName, FlipCard } from '../../components'
+
+type InfoPage = 'services' | 'gear' | 'floorplan' | 'history'
 
 export class Info extends Page {
 
-    public renderDesktop = () => {
+    private nyGearFlipCard!:FlipCard
+    private laGearFlipCard!:FlipCard
 
-        const infoDimensions = (e:any) => e.currentTarget.style.height = `${e.currentTarget.clientWidth * 0.53}px`
+    public state = {
+        page: 'services' as InfoPage,
+
+        nyGearPage: 'A' as 'A' | 'B' | 'C',
+        laGearPage: 'A' as 'A' | 'B',
+    }
+
+    constructor(props:any) {
+        super(props)
+        // Automatically adjust the height of the thumbnails as the page scales
+        DeviceUtil.onReady(() => {
+            $('.info-thumbnail-small').height(this.getSmallHeight())
+            $('.info-thumbnail-long').height(this.getLongHeight())
+            DeviceUtil.onResize(() => {
+                $('.info-thumbnail-small').height(this.getSmallHeight())
+                $('.info-thumbnail-long').height(this.getLongHeight())
+            })
+        })
+    }
+
+    public componentDidUpdate = () => {
+        // Never forget to adjust the thumbnail size when the state changes
+        $('.info-thumbnail-small').height(this.getSmallHeight())
+        $('.info-thumbnail-long').height(this.getLongHeight())
+    }
+    
+    public renderDesktop = () => {
+        const page = this.state.page
+        const active = (p:InfoPage) => p === page ? 'active' : ''
 
         return (
             <div className={'wrapper h-75 d-flex flex-column justify-content-center pl-4 pr-4 mt-4 mb-4'}>
                 <div className={'pl-4 pr-4'}>
                     <div className={'row'}>
                         <div className={'col-3 pl-1 pr-1'}>
-                            <button className={'color-white btn-box animated w-100 font-tertiary'}>SERVICES</button>
+                            <button onClick={() => this.setPage('services')} className={`color-white btn-box animated w-100 font-tertiary ${active('services')}`}>SERVICES</button>
                         </div>
                         <div className={'col-3 pl-1 pr-1'}>
-                            <button className={'color-white btn-box animated w-100 font-tertiary'}>GEAR</button>
+                            <button onClick={() => this.setPage('gear')} className={`color-white btn-box animated w-100 font-tertiary ${active('gear')}`}>GEAR</button>
                         </div>
                         <div className={'col-3 pl-1 pr-1'}>
-                            <button className={'color-white btn-box animated w-100 font-tertiary'}>FLOORPLAN</button>
+                            <button onClick={() => this.setPage('floorplan')} className={`color-white btn-box animated w-100 font-tertiary ${active('floorplan')}`}>FLOORPLAN</button>
                         </div>
                         <div className={'col-3 pl-1 pr-1'}>
-                            <button className={'color-white btn-box animated w-100 font-tertiary'}>HISTORY</button>
+                            <button onClick={() => this.setPage('history')} className={`color-white btn-box animated w-100 font-tertiary ${active('history')}`}>HISTORY</button>
                         </div>
                     </div>
                 </div>
-                <div className={'pl-4 pr-4'}>
-                    <div className={'row pt-2'}>
-                        <div className={'col-6 pl-1 pr-1'}>
-                            <div onLoad={infoDimensions} className={'color-white btn-box animated w-100 d-flex flex-column justify-content-center align-items-center'}>
-                                <Icon name={IconName.Microphone} width={'2rem'} height={'4rem'} />
-                                <div className={'font-title h6'}>RECORDING & EDITING</div>
+                {
+                    page === 'services' &&
+                    <div className={'info-page pl-4 pr-4'}>
+                        <div className={'row pt-2'}>
+                            <div className={'col-6 pl-1 pr-1'}>
+                                <FlipCard className={'w-100 h-100 info-thumbnail-small color-white btn-box'}
+                                    childrenFront={
+                                        <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
+                                            <Icon name={IconName.Microphone} width={'2rem'} height={'4rem'} />
+                                            <div className={'font-title h6 mt-3 upper'}>RECORDING & EDITING</div>
+                                        </div>
+                                    }
+                                    childrenBack={
+                                        <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
+                                            <div className={'font-title h5 mb-2 upper'}>RECORDING & EDITING</div>
+                                            <div className={'font-secondary h6 lh-1.25 color-light'}>5 control rooms w/ vocal booths & live rooms for tracking</div>
+                                            <div className={'font-secondary h6 lh-1.25 color-light'}>Pro Tools & premium outboard plus dozens of microphone choices</div>
+                                            <div className={'font-secondary h6 lh-1.25 color-light'}>Drums, amps, keyboard, and more</div>
+                                        </div>
+                                    }
+                                />
+                            </div>
+                            <div className={'col-6 pl-1 pr-1'}>
+                                <FlipCard className={'info-thumbnail-small color-white btn-box animated w-100 d-flex flex-column justify-content-center align-items-center'}
+                                    childrenFront={
+                                        <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
+                                            <Icon name={IconName.Microphone} width={'2rem'} height={'4rem'} />
+                                            <div className={'font-title h6 mt-3 upper'}>MIXING & MASTERING</div>
+                                        </div>
+                                    }
+                                    childrenBack={
+                                        <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
+                                            <div className={'font-title h5 mb-2 upper'}>MIXING & MASTERING</div>
+                                            <div className={'font-secondary h6 lh-1.25 color-light'}>Platinum-selling & grammy award-winning engineers</div>
+                                            <div className={'font-secondary h6 lh-1.25 color-light'}>Mix previously recorded tracks or sessions</div>
+                                            <div className={'font-secondary h6 lh-1.25 color-light'}>Clean, define & polish your sound</div>
+                                            <div className={'font-secondary h6 lh-1.25 color-light'}>Master your mixes to industry standards</div>
+                                        </div>
+                                    }
+                                />
                             </div>
                         </div>
-                        <div className={'col-6 pl-1 pr-1'}>
-                            <div onLoad={infoDimensions} className={'color-white btn-box animated w-100 d-flex flex-column justify-content-center align-items-center'}>
-                                <Icon name={IconName.Microphone} width={'2rem'} height={'4rem'} />
-                                <div className={'font-title h6'}>MIXING & MASTERING</div>
+                        <div className={'row pt-2'}>
+                            <div className={'col-6 pl-1 pr-1'}>
+                                <FlipCard className={'info-thumbnail-small color-white btn-box animated w-100 d-flex flex-column justify-content-center align-items-center'}
+                                    childrenFront={
+                                        <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
+                                            <Icon name={IconName.Film} width={'2.4rem'} height={'2.4rem'} />
+                                            <div className={'font-title h6 mt-3 upper'}>VOICEOVER, POST & FILM</div>
+                                        </div>
+                                    }
+                                    childrenBack={
+                                        <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
+                                            <div className={'font-title h5 mb-2 upper'}>VOICEOVER, POST & FILM</div>
+                                            <div className={'font-secondary h6 lh-1.25 color-light'}>ADR & voiceovers</div>
+                                            <div className={'font-secondary h6 lh-1.25 color-light'}>Podcasts & audiobooks</div>
+                                            <div className={'font-secondary h6 lh-1.25 color-light'}>Noise reduction & sound restoration</div>
+                                            <div className={'font-secondary h6 lh-1.25 color-light'}>Sound design & scoring</div>
+                                        </div>
+                                    }
+                                />
+                            </div>
+                            <div className={'col-6 pl-1 pr-1'}>
+                                <FlipCard className={'info-thumbnail-small color-white btn-box animated w-100 d-flex flex-column justify-content-center align-items-center'}
+                                    childrenFront={
+                                        <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
+                                            <Icon name={IconName.Film} width={'2.4rem'} height={'2.4rem'} />
+                                            <div className={'font-title h6 mt-3 upper'}>PRODUCTION & COMPOSITION</div>
+                                        </div>
+                                    }
+                                    childrenBack={
+                                        <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
+                                            <div className={'font-title h5 mb-2 upper'}>PRODUCTION & COMPOSITION</div>
+                                            <div className={'font-secondary h6 lh-1.25 color-light'}>Create custom instrumentals</div>
+                                            <div className={'font-secondary h6 lh-1.25 color-light'}>Polish & add to existing tracks</div>
+                                            <div className={'font-secondary h6 lh-1.25 color-light'}>Remixes & replays</div>
+                                            <div className={'font-secondary h6 lh-1.25 color-light'}>Songwriting & composition</div>
+                                        </div>
+                                    }
+                                />
                             </div>
                         </div>
                     </div>
-                    <div className={'row pt-2'}>
-                        <div className={'col-6 pl-1 pr-1'}>
-                            <div onLoad={infoDimensions} className={'color-white btn-box animated w-100 d-flex flex-column justify-content-center align-items-center'}>
-                                <Icon name={IconName.Film} width={'2rem'} height={'4rem'} />
-                                <div className={'font-title h6'}>VOICEOVER / POST / FILM</div>
+                }
+                {
+                    page === 'gear' &&
+                    <div className={'info-page pl-4 pr-4'}>
+                        <div className={'row pt-2'}>
+                            <div className={'col-6 pl-1 pr-1'}>
+                                <FlipCard ref={r => this.nyGearFlipCard = r!} flipOnClick={'back'} className={'w-100 h-100 info-thumbnail-long color-white btn-box'}
+                                    childrenFront={
+                                        <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
+                                            <Icon name={IconName.NewYork} width={'4rem'} height={'4rem'} />
+                                            <div className={'font-title h6 mt-3 mb-4 upper'}>NEW YORK</div>
+                                            <button onClick={() => this.onNYGear('A')} className={'h1 btn font-bold font-secondary mt-3 upper color-light clickable animated'}>ROOM A GEAR</button>
+                                            <button onClick={() => this.onNYGear('B')} className={'h1 btn font-bold font-secondary mt-1 upper color-light clickable animated'}>ROOM B GEAR</button>
+                                            <button onClick={() => this.onNYGear('C')} className={'h1 btn font-bold font-secondary mt-1 upper color-light clickable animated'}>ROOM C GEAR</button>
+                                        </div>
+                                    }
+                                    childrenBack={
+                                        <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
+                                        <div className={'h7 upper'}>NEW YORK</div>
+                                        <div className={'font-title h4 upper m-0 mb-3'}>ROOM {this.state.nyGearPage} GEAR</div>
+                                        {
+                                            this.state.nyGearPage === 'A' &&
+                                            <Fragment>
+                                                <div className={'h8 color-light overflow-auto'}>
+                                                    <div className={'font-title h6 mb-1 upper'}>COMPUTER</div>
+                                                    Apple iMac Pro
+                                                    <div className={'font-title h6 mt-3 mb-1 upper'}>SOFTWARE</div>
+                                                    Pro Tools,
+                                                    Logic Pro X,
+                                                    Ableton Live
+                                                    <div className={'font-title h6 mt-3 mb-1 upper'}>HARDWARE</div>
+                                                    Antelope Orion32 HD Gen 3 (32 In, 32 Out),
+                                                    Universal Audio Apollo Twin
+                                                    <div className={'font-title h6 mt-3 mb-1 upper'}>MONITORING</div>
+                                                    Augspurger Solo Mains,
+                                                    ProAc Studio SM100,
+                                                    Avantone Mixcube,
+                                                    TC Electronic Clarity M Stereo,
+                                                    Antelope Satori & R4S Monitoring Controller & Remote,
+                                                    Redco Audio Little Red Cue Box
+                                                    <div className={'font-title h6 mt-3 mb-1 upper'}>OUTBOARD</div>
+                                                    Tube-Tech CL-1B,
+                                                    Warm Audio WA273-EQ
+                                                    Warm Audio WA-412 (x2)
+                                                    <div className={'font-title h6 mt-3 mb-1 upper'}>MICROPHONES</div>
+                                                    Audix D6,
+                                                    AKG c414b ULS (x2),
+                                                    Audio Technica 4060,
+                                                    Countryman DI (x2),
+                                                    Electrovoice Cardinal,
+                                                    Electrovoice RE20,
+                                                    Oktava 012 (x2),
+                                                    Oktava Mk319,
+                                                    Radial DI,
+                                                    Russo Audio Tube w/ C12 capsule,
+                                                    Sennheiser e604 (x3),
+                                                    Sennheiser MD421,
+                                                    Shure Beta 52 (x2),
+                                                    Shure Beta 58A (x2),
+                                                    Shure Beta 98,
+                                                    Shure SM57 (x5),
+                                                    Shure SM58,
+                                                    Neumann M149,
+                                                    Neumann U87,
+                                                    Telefunken RTF AK47 (x2),
+                                                    Warm Audio WA-47,
+                                                    Warm Audio WA-84 CE (x2),
+                                                    Warm Audio WA-87 (x2)
+                                                    <div className={'font-title h6 mt-3 mb-1 upper'}>AMPS & PERCUSSION</div>
+                                                    Fender Jazz Deluxe Amp,
+                                                    Orange County Custom Drumkit (20” kick, 14“ snare,12” & 16“ Toms),
+                                                    Tama Drumkit (22” kick, 14” and 16” Toms”),
+                                                    Pearl Export Snare 14”,
+                                                    Orange Dual Terror Tube Head,
+                                                    Vintage Modified Bandmaster VM212,
+                                                    Orange FS-1,
+                                                    Yamaha Acoustic Guitar,
+                                                    Maracas,
+                                                    Tambourine,
+                                                    Chimes,
+                                                    Congas,
+                                                    Shakers
+                                                    <div className={'font-title h6 mt-3 mb-1 upper'}>KEYBOARDS & CONTROLLERS</div>
+                                                    Acorn Masterkey 61,
+                                                    Akai LPK251
+                                                </div>
+                                            </Fragment>
+                                        }
+                                            {
+                                                this.state.nyGearPage === 'B' &&
+                                                <Fragment>
+                                                    
+                                                </Fragment>
+                                            }
+                                            {
+                                                this.state.nyGearPage === 'C' &&
+                                                <Fragment>
+                                                    
+                                                </Fragment>
+                                            }
+                                        </div>
+                                    }
+                                />
                             </div>
-                        </div>
-                        <div className={'col-6 pl-1 pr-1'}>
-                            <div onLoad={infoDimensions} className={'color-white btn-box animated w-100 d-flex flex-column justify-content-center align-items-center'}>
-                                <Icon name={IconName.Film} width={'2rem'} height={'4rem'} />
-                                <div className={'font-title h6'}>PRODUCTION & COMPOSITION</div>
+                            <div className={'col-6 pl-1 pr-1'}>
+                                <FlipCard ref={r => this.laGearFlipCard = r!} flipOnClick={'back'} className={'info-thumbnail-long color-white btn-box animated w-100 d-flex flex-column justify-content-center align-items-center'}
+                                    childrenFront={
+                                        <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
+                                            <Icon name={IconName.LosAngeles} width={'4rem'} height={'4rem'} />
+                                            <div className={'font-title h6 mt-3 mb-4 upper'}>LOS ANGELES</div>
+                                            <button onClick={() => this.onLAGear('A')} className={'h1 btn font-bold font-secondary mt-3 upper color-light clickable animated'}>ROOM A GEAR</button>
+                                            <button onClick={() => this.onLAGear('B')} className={'h1 btn font-bold font-secondary mt-1 mb-4 upper color-light clickable animated'}>ROOM B GEAR</button>
+                                        </div>
+                                    }
+                                    childrenBack={
+                                        <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
+                                            <div className={'h7 upper'}>LOS ANGELES</div>
+                                            <div className={'font-title h4 upper m-0 mb-3'}>ROOM {this.state.laGearPage} GEAR</div>
+                                            {
+                                                this.state.laGearPage === 'A' &&
+                                                <Fragment>
+                                                    <div className={'h8 color-light'}>
+                                                        <div className={'font-title h6 mb-1 upper'}>COMPUTER</div>
+                                                        Mac Pro 3.5 GHz 6-Core
+                                                        <div className={'font-title h6 mt-3 mb-1 upper'}>SOFTWARE</div>
+                                                        Pro Tools HD12,
+                                                        Logic X,
+                                                        Ableton Live 9,
+                                                        UAD-2 Accelerator
+                                                        <div className={'font-title h6 mt-3 mb-1 upper'}>HARDWARE</div>
+                                                        Lynx Aurora 16 (16in, 16 out),
+                                                        Avid Mix,
+                                                        Avid Control
+                                                        <div className={'font-title h6 mt-3 mb-1 upper'}>MONITORING</div>
+                                                        Barefoot Monitor Micromain 27,
+                                                        Genelec 1031a,
+                                                        Yamaha NS-10M,
+                                                        Dangerous Monitor ST,
+                                                        Presonus HP4 Headphone Mixer
+                                                        <div className={'font-title h6 mt-3 mb-1 upper'}>OUTBOARD</div>
+                                                        A-Designs Pacifica Pre,
+                                                        API 3124 Pre,
+                                                        Alesis Microverb,
+                                                        dBX 160A,
+                                                        dBX 166,
+                                                        Empirical Labs Distressor EL-8 (x2),
+                                                        Presonus Studio Channel,
+                                                        Stam Audio LA-2A,
+                                                        Universal Audio 1176LN,
+                                                        Vintech x73i (x2)
+                                                        <div className={'font-title h6 mt-3 mb-1 upper'}>MICROPHONES & DIRECT BOXES</div>
+                                                        AKG c451b,
+                                                        Antelope Audio Edge Solo,
+                                                        Apex 360,
+                                                        Audio Technica 4050 (x2),
+                                                        Neumann TLM 67,
+                                                        Radial ProD2,
+                                                        Shure Beta 52,
+                                                        Shure Beta 58,
+                                                        Shure SM57 (x2),
+                                                        Telefunken AR-51
+                                                    </div>
+                                                </Fragment>
+                                            }
+                                            {
+                                                this.state.laGearPage === 'B' &&
+                                                <Fragment>
+                                                    <div className={'h8 color-light'}>
+                                                        <div className={'font-title h6 mb-1 upper'}>COMPUTER</div>
+                                                        Mac Mini
+                                                        <div className={'font-title h6 mt-3 mb-1 upper'}>SOFTWARE</div>
+                                                        Pro Tools,
+                                                        Logic X,
+                                                        Ableton Live 9
+                                                        <div className={'font-title h6 mt-3 mb-1 upper'}>HARDWARE</div>
+                                                        Antelope Audio Discrete 8 Interface
+                                                        <div className={'font-title h6 mt-3 mb-1 upper'}>MONITORING</div>
+                                                        Antelope Discrete 8 Interface,
+                                                        Presonus HP4 Headphone Mixer,
+                                                        Yamaha HS-10 Monitors
+                                                        <div className={'font-title h6 mt-3 mb-1 upper'}>OUTBOARD</div>
+                                                        Avalon 737 Black Pre-amp,
+                                                        Antelope 8 channel Pre-amp,
+                                                        <div className={'font-title h6 mt-3 mb-1 upper'}>MICROPHONES & DIRECT BOXES</div>
+                                                        AKG c451b,
+                                                        Antelope Audio Edge Solo,
+                                                        Apex 360,
+                                                        Audio Technica 4050 (x2),
+                                                        Neumann TLM 67,
+                                                        Radial ProD2,
+                                                        Shure Beta 52,
+                                                        Shure Beta 58,
+                                                        Shure SM57 (x2),
+                                                        Telefunken AR-51
+                                                    </div>
+                                                </Fragment>
+                                            }
+                                        </div>
+                                    }
+                                />
                             </div>
                         </div>
                     </div>
-                </div>
+                }
             </div>
         )
     }
@@ -68,5 +358,22 @@ export class Info extends Page {
             </div>
         )
     }
+
+    private setPage = (page:InfoPage) => {
+        this.setState({ page })
+    }
+
+    // Set the current room gear being viewed in NY
+    private onNYGear = (room:'A'|'B'|'C') => {
+        this.setState({ nyGearPage: room }, () => this.nyGearFlipCard.flip())
+    }
+
+    // Set the current room gear being viewed in LA
+    private onLAGear = (room:'A'|'B') => {
+        this.setState({ laGearPage: room }, () => this.laGearFlipCard.flip())
+    }
+
+    private getSmallHeight = () => $('.info-thumbnail-small').get().length > 0 ? $('.info-thumbnail-small').get()[0].clientWidth * 0.53 : 0
+    private getLongHeight = () => $('.info-thumbnail-long').get().length > 0 ? $('.info-thumbnail-long').get()[0].clientWidth * 1.06 + 27 : 0
 
 }

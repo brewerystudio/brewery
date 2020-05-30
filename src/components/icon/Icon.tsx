@@ -36,13 +36,8 @@ export class Icon extends Component {
                 beforeInjection={svg => {
                     svg.classList.add(className)
                     svg.setAttribute('fill', fill)
-                    if (width) {
-                        svg.setAttribute('width', width)
-                        svg.setAttribute('height', "")
-                    } else if (height) {
-                        svg.setAttribute('width', "")
-                        svg.setAttribute('height', height)
-                    }
+                    svg.setAttribute('width', width)
+                    svg.setAttribute('height', height)
                 }}
                 evalScripts="always"
                 fallback={() => <span>Error!</span>}

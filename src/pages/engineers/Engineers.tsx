@@ -1,6 +1,8 @@
 import React from 'react'
 import { Page } from '../Page'
 import './Engineers.sass'
+
+import { DeviceUtil } from '../../utils'
 import { Button } from '../../components'
 import { colors } from '../../constants'
 import { Studio, Engineer } from '../../interfaces'
@@ -59,11 +61,20 @@ export class Engineers extends Page {
         ]
     }
 
+    constructor(props:any) {
+        super(props)
+        const getHeight = () => $('.engineer-thumbnail').get().length > 0 ? $('.engineer-thumbnail').get()[0].clientWidth * 0.6 : 0
+        DeviceUtil.onReady(() => {
+            $('.engineer-thumbnail').height(getHeight())
+            DeviceUtil.onResize(() => {
+                $('.engineer-thumbnail').height(getHeight())
+            })
+        })
+    }
+
     public renderDesktop = () => {
         const studio = this.state.studio
         const engineers:Engineer[] = new Array(studio === Studio.NewYork ? 13 : 6).fill((this.engineers[this.state.studio.toString()]! as Engineer[])[0])
-
-        const engineerDimensions = (e:any) => e.currentTarget.style.height = `${e.currentTarget.clientWidth * 0.6}px`
 
         return (
             <div className={'wrapper h-100 d-flex flex-column justify-content-center mt-4 mb-4'}>
@@ -95,7 +106,7 @@ export class Engineers extends Page {
                     </div>
                     <div className={'d-flex flex-row justify-content-center pl-2 flex-wrap'}>
                         {engineers.map((engineer, i) =>
-                            <div key={`eng-${i}`} onLoad={engineerDimensions} className={'w-25 pr-2 pt-2'}>
+                            <div key={`eng-${i}`} className={'engineer-thumbnail w-25 pr-2 pt-2'}>
                                 <EngineerThumbnail engineer={engineer} />
                             </div>
                         )}

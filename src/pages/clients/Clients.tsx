@@ -113,7 +113,7 @@ export class Clients extends Page {
                         <div className={'color-primary font-secondary upper h4 mb-0'}>
                             CLIENTS
                         </div>
-                        <div ref={r => this.client = r!} className={'color-white font-title upper h1 mt-0'} />
+                        <div ref={r => this.client = r!} className={'color-white font-title upper h3 mt-0'} />
                     </div>
                     <div className={'row pl-4 pr-4'}>
                         <div className={'col-6'}>

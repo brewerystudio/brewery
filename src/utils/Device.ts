@@ -33,8 +33,12 @@ export class DeviceUtil {
         return DeviceUtil.getWidth() > DeviceSize.X_SMALL
     }
 
+    public static onReady = (func:()=>void):void => {
+        $(document).ready(() => func())
+    }
+
     public static onResize = (func:(width:number, height:number)=>void):void => {
-        window.addEventListener('resize', () => func(DeviceUtil.getWidth(), DeviceUtil.getHeight()))
+        $(window).resize(() => func(DeviceUtil.getWidth(), DeviceUtil.getHeight()))
     }
 
 }

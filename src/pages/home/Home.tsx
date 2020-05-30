@@ -8,27 +8,29 @@ export class Home extends Page {
 
     public renderDesktop = () => {
         return (
-            <div className={'wrapper h-75 d-flex flex-column justify-content-between pl-4 pr-4 mt-4 mb-4'}>
-                <div className={'d-flex flex-column justify-content-between pt-4 mt-4'}>
-                    <div className={'mt-4'}>
-                        <div className={'color-white font-title upper display-3'}>
-                            Welcome Home
+            <div className={'wrapper h-85 d-flex flex-column justify-content-between pl-4 pr-4 mt-4 mb-4'}>
+                <div className={'d-flex h-75 flex-row align-items-center justify-content-center pt-4 mt-4'}>
+                    <div>
+                        <div className={'mt-4'}>
+                            <div className={'color-white font-title upper display-3'}>
+                                Welcome Home
+                            </div>
+                            <div className={'color-primary font-secondary upper h2'}>
+                                New York | Los Angeles
+                            </div>
                         </div>
-                        <div className={'color-primary font-secondary upper h2'}>
-                            New York | Los Angeles
+                        <div className={'d-inline-block mb-4'}>
+                            <Button
+                                className={'font-secondary book-session-button'}
+                                text={'Book Session'.toUpperCase()}
+                                iconName={IconName.Record}
+                                iconColor={colors.white}
+                                textColor={colors.white}
+                                onClick={this.onBookSession}
+                                fontSize={'1.4rem'}
+                                iconSize={'1.8rem'}
+                            />
                         </div>
-                    </div>
-                    <div className={'d-inline-block mb-4'}>
-                        <Button
-                            className={'font-secondary book-session-button'}
-                            text={'Book Session'.toUpperCase()}
-                            iconName={IconName.Record}
-                            iconColor={colors.white}
-                            textColor={colors.white}
-                            onClick={this.onBookSession}
-                            fontSize={'1.4rem'}
-                            iconSize={'1.8rem'}
-                        />
                     </div>
                 </div>
                 <footer>
