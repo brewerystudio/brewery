@@ -77,7 +77,7 @@ export class Clients extends Page {
                         </div>
                         <div ref={r => this.client = r!} className={'color-white font-title upper display-4 mt-0'} />
                     </div>
-                    <div className={'row pl-4 pr-4'}>
+                    <div className={'row mt-2 pl-4 pr-4'}>
                         <div className={'col-4'}>
                             {
                                 this.clients.slice(0, Math.floor(this.clients.length / 3)).map((client, i) => (

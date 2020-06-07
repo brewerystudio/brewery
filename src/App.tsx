@@ -4,8 +4,8 @@ import { NavigationBar, Background, BackgroundName } from './components'
 import ReactFullpage from '@fullpage/react-fullpage'
 import { Route } from './interfaces'
 import { Home, Gallery, Clients, Engineers, Info } from './pages'
-import { colors } from './constants'
-import { Navigation } from './utils'
+import { colors, shouts } from './constants'
+import { Navigation, Shout } from './utils'
 import './styles/app.sass'
 
 AWS.config.update({
@@ -69,7 +69,12 @@ export class App extends Component {
 					onLeave={this.onLeave}
 					render={(props:any) => {
 						const { fullpageApi } = props
-						this.fullPage = fullpageApi
+						if (fullpageApi) {
+							this.fullPage = fullpageApi
+							// Subscribe to page scroll events
+							Shout.subscribe(shouts.PAGE_SCROLL_ON, () => this.toggleScrolling(true))
+							Shout.subscribe(shouts.PAGE_SCROLL_OFF, () => this.toggleScrolling(false))
+						}
 						return (
 							<ReactFullpage.Wrapper>
 								{
@@ -125,6 +130,13 @@ export class App extends Component {
 		if (index >= 0) {
 			this.fullPage.silentMoveTo(index + 1)
 		}
+	}
+
+	public toggleScrolling = (to:boolean) => {
+		if (!this.fullPage) {
+			return
+		}
+		this.fullPage.setAllowScrolling(to)
 	}
 
 }

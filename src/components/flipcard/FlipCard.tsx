@@ -5,7 +5,7 @@ import './FlipCard.sass'
 import { addClasses } from '../../constants'
 
 // Denotes the side the user can click on to flip it automatically
-type FlipSide = 'both' | 'front' | 'back' | null | undefined
+type FlipSide = 'both' | 'front' | 'back' | 'none' | null | undefined
 
 export class FlipCard extends Component {
 
@@ -49,16 +49,20 @@ export class FlipCard extends Component {
         if (!this.isFlipped && (toBack === true || toBack === undefined)) {
             // Flip to back
             $(this.container).css('transform', 'rotateY(180deg)')
-            $(this.container).css('cursor', flipOnClick && flipOnClick !== 'front' ? 'pointer' : 'default')
+            $(this.container).css('cursor', flipOnClick && flipOnClick !== 'front' && flipOnClick !== 'none' ? 'pointer' : 'default')
+            $(this.back).show()
             $(this.front).animate({ opacity: 0 }, 100)
             $(this.back).animate({ opacity: 1 }, 100)
+            setTimeout(() => $(this.front).hide(), 100)
             this.isFlipped = true
         } else if (this.isFlipped && (toBack === false || toBack === undefined)) {
             // Flip to front
             $(this.container).css('transform', 'rotateY(0deg)')
-            $(this.container).css('cursor', flipOnClick && flipOnClick !== 'back' ? 'pointer' : 'default')
+            $(this.container).css('cursor', flipOnClick && flipOnClick !== 'back' && flipOnClick !== 'none' ? 'pointer' : 'default')
+            $(this.front).show()
             $(this.front).animate({ opacity: 1 }, 100)
             $(this.back).animate({ opacity: 0 }, 100)
+            setTimeout(() => $(this.back).hide(), 100)
             this.isFlipped = false
         }
     }
@@ -68,7 +72,7 @@ export class FlipCard extends Component {
         className: t.string,
         width: t.oneOfType([ t.string, t.number ]),
         height: t.oneOfType([ t.string, t.number ]),
-        flipOnClick: t.oneOf([ 'both', 'front', 'back' ]),
+        flipOnClick: t.oneOf([ 'both', 'front', 'back', 'none' ]),
         childrenFront: t.any,
         childrenBack: t.any,
         animationMillis: t.number,
