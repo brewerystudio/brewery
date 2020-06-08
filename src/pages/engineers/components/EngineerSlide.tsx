@@ -14,7 +14,7 @@ export class EngineerSlide extends Component {
         const onChangeStudio:(_:Studio)=>void = (this.props as any).onChangeStudio
 
         return (
-            <div className={'position-relative d-flex flex-column justify-content-end p-0 m-0 h-100'}>
+            <div className={'position-relative d-flex flex-column justify-content-end p-0 m-0 h-100 engineer-slide'}>
                 <div className={'d-flex flex-column justify-content-center text-left pt-4 mt-4 pl-4 pr-4 h-100'}>
                     <div className={'d-flex flex-row mt-4 mb-2 w-100'}>
                         <div className={'pl-2 pr-2'}>
@@ -36,10 +36,10 @@ export class EngineerSlide extends Component {
                             />
                         </div>
                     </div>
-                    <div className={'font-title color-white mt-2 h1 upper mb-0 lh-1 w-75'}>{engineer.name}</div>
-                    <div className={'font-light color-light h6 mb-4 upper mt-0 w-75'}>{engineer.title}</div>
+                    <div className={'font-title color-white mt-2 h3 upper mb-0 lh-1 w-75'}>{engineer.name}</div>
+                    <div className={'font-light color-light h7 mb-4 upper mt-0 w-75'}>{engineer.title}</div>
                     <div className={'font-secondary color-light h4 mb-1 upper w-75'}>BIO</div>
-                    <div className={'font-regular color-white w-75'}>{engineer.bio}</div>
+                    <div className={'font-regular color-white w-75 h7 '}>{engineer.bio}</div>
                     <div className={'d-inline-block mb-4 mt-4 w-75'}>
                         {
                             engineer.instagramURL &&

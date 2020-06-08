@@ -33,6 +33,9 @@ body
     outline: none
     background-color: $black
 
+.section
+    overflow: hidden
+
 textarea:focus, input:focus, *:focus
     outline: none !important
 
@@ -80,6 +83,12 @@ textarea:focus, input:focus, *:focus
 
 .justify-content-stretch
     justify-content: stretch
+
+.wrap
+    word-wrap: break-word
+    word-break: break-word
+    display: inline-block
+    white-space: normal
 
 /**
  *  Shadows
@@ -244,8 +253,11 @@ textarea:focus, input:focus, *:focus
  *  Horizontal Scrolling
  */
 .h-scroll
-    overflow-x: scroll
     overflow-y: hidden
+    overflow-x: scroll
     white-space: nowrap
+    -webkit-overflow-scrolling: touch
+    touch-action: pan-y
+
 .h-scroll > *
     display: inline-block

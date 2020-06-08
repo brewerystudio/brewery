@@ -93,8 +93,8 @@ export class Home extends Page {
                         iconColor={colors.white}
                         textColor={colors.white}
                         onClick={this.onBookSession}
-                        fontSize={'1.7rem'}
-                        iconSize={'2.2rem'}
+                        fontSize={'1.2rem'}
+                        iconSize={'2rem'}
                     />
                 </div>
             </div>

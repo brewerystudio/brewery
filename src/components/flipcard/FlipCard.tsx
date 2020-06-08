@@ -24,7 +24,7 @@ export class FlipCard extends Component {
     }
 
     public render = () => {
-        const { containerStyle, className, flipOnClick, childrenFront, childrenBack } = this.props as any
+        const { containerStyle, className, childrenFront, childrenBack } = this.props as any
 
         return (
             <div ref={r => this.container = r!} className={addClasses('flip-card animated-slow', className)} style={containerStyle}>
