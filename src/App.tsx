@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { NavigationBar, Background, BackgroundName } from './components'
 import ReactFullpage from '@fullpage/react-fullpage'
 import { Route } from './interfaces'
-import { Home, Gallery, Clients, Engineers, Info } from './pages'
+import { Home, Gallery, Clients, Engineers, Info, Booking } from './pages'
 import { colors, shouts } from './constants'
 import { Navigation, Shout } from './utils'
 import './styles/app.sass'
@@ -41,6 +41,11 @@ export const ROUTES:Route[] = [
         title: 'Info',
         url: '/info',
         component: <Info />
+    },
+    {
+        title: 'Booking',
+        url: '/booking',
+        component: <Booking />
     }
 ]
 
@@ -109,7 +114,9 @@ export class App extends Component {
 		} else if (destination.index === 3) {
 			this.bg.changeBackgroundName(BackgroundName.Table)
 		} else if (destination.index === 4) {
-			this.bg.changeBackgroundName(BackgroundName.Lounge)
+			this.bg.changeBackgroundName(BackgroundName.LoungeNY)
+		} else if (destination.index === 5) {
+			this.bg.changeBackgroundName(BackgroundName.LoungeLA)
 		}
 
 	}
