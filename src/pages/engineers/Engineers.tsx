@@ -11,6 +11,9 @@ import { EngineerThumbnail, EngineerSlide } from './components'
 
 
 export class Engineers extends Page {
+    
+    // Number of columns for engineer thumbnails
+    private static NUM_COLS_DESKTOP = 5
 
     public state = {
         studio: Studio.NewYork,
@@ -76,13 +79,15 @@ export class Engineers extends Page {
         const studio = this.state.studio
         const engineers:Engineer[] = new Array(studio === Studio.NewYork ? 13 : 6).fill((this.engineers[this.state.studio.toString()]! as Engineer[])[0])
 
+        const thumbnailWidth = Math.floor(1 / Engineers.NUM_COLS_DESKTOP * 100)
+
         return (
             <div className={'wrapper h-100 d-flex flex-column justify-content-center mt-4 mb-4'}>
                 <div>
                     <div className={'color-primary font-secondary upper h4 mb-0'}>
                         ENGINEERS
                     </div>
-                    <div className={'row mt-2 mb-4'}>
+                    <div className={'row mt-2 mb-4 mr-4 ml-4'}>
                         <div className={'col-6 d-flex justify-content-end'}>
                             <Button
                                 className={'font-title ml-1 mr-1'}
@@ -104,12 +109,14 @@ export class Engineers extends Page {
                             />
                         </div>
                     </div>
-                    <div className={'d-flex flex-row justify-content-center pl-2 flex-wrap'}>
-                        {engineers.map((engineer, i) =>
-                            <div key={`eng-${i}`} className={'engineer-thumbnail w-25 pr-2 pt-2'}>
-                                <EngineerThumbnail engineer={engineer} />
-                            </div>
-                        )}
+                    <div className={'d-flex flex-column align-items-center'}>
+                        <div className={'d-flex flex-row justify-content-center pl-2 flex-wrap w-75'}>
+                            {engineers.map((engineer, i) =>
+                                <div key={`eng-${i}`} className={'pr-2 pt-2'} style={{ width: `${thumbnailWidth}%` }}>
+                                    <EngineerThumbnail engineer={engineer} />
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

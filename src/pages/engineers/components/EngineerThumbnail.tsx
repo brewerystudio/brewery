@@ -206,12 +206,11 @@ export class EngineerThumbnail extends Component {
             height: `${this.boundingBox.height}px`,
             width: `${this.boundingBox.width}px`,
         }, this.animationSpeed)
-        // Destroy decoys
-        $('.decoy').animate({
-            width: '0px',
-        }, this.animationSpeed)
         setTimeout(() => {
             $('.decoy').remove()
+            $('.decoy').animate({
+                width: '0px',
+            }, this.animationSpeed)
             $(this.container).parent().css({
                 position: 'relative',
                 top: '0',

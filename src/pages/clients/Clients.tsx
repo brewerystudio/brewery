@@ -69,7 +69,7 @@ export class Clients extends Page {
 
     public renderDesktop = () => {
         return (
-            <div className={'wrapper h-75 d-flex flex-column justify-content-between pl-4 pr-4 mt-4 mb-4'}>
+            <div className={'wrapper d-flex flex-column justify-content-between pl-4 pr-4 mt-4 mb-4'}>
                 <div className={'d-flex flex-column justify-content-between pt-4 mt-4'}>
                     <div className={'mb-4'}>
                         <div className={'color-primary font-secondary upper h4 mb-0'}>

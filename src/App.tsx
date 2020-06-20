@@ -56,6 +56,7 @@ export class App extends Component {
 
 	public state = {
 		navbarHeight: 0,
+		currentRoute: null,
 	}
 	
 	public render = () => {
@@ -65,6 +66,7 @@ export class App extends Component {
 				<Background ref={r => this.bg = r!} initialBackgroundName={BackgroundName.Landing} position={'fixed'} overlayColor={colors.black} overlayOpacity={0.5} />
 				<NavigationBar
 					items={ROUTES}
+					currentItem={this.state.currentRoute}
 					onResize={this.onNavbarResize}
 				/>
 				<ReactFullpage
@@ -105,9 +107,15 @@ export class App extends Component {
 	}
 
 	private onLeave = (origin:any, destination:any, direction:'up'|'down') => {
+		const route = ROUTES[destination.index]
+
+		this.setState({ currentRoute: route })
+		Navigation.go(route.url, null, true)
 						
 		// Change background
-		if ((destination.index === 1) || (origin.index === 1 && destination.index === 2)) {
+		if (destination.index === 0) {
+			this.bg.changeBackgroundName(BackgroundName.Table)
+		} else if ((destination.index === 1) || (origin.index === 1 && destination.index === 2)) {
 			this.bg.changeBackgroundName(BackgroundName.Microphone)
 		} else if (destination.index === 1) {
 			this.bg.changeBackgroundName(BackgroundName.Landing)
@@ -118,7 +126,6 @@ export class App extends Component {
 		} else if (destination.index === 5) {
 			this.bg.changeBackgroundName(BackgroundName.LoungeLA)
 		}
-
 	}
 
 	private moveToPageInPath = () => {
@@ -135,6 +142,7 @@ export class App extends Component {
 			}
 		}
 		if (index >= 0) {
+			this.setState({ currentRoute: ROUTES[index] })
 			this.fullPage.silentMoveTo(index + 1)
 		}
 	}

@@ -50,9 +50,9 @@ export class Booking extends Page {
             subtext: 'w/ Engineer'
         },
         {
-            text: '25 & 50 Hour Blocks',
+            text: '25 / 50 Hour Blocks',
             time: 'Artist Project Blocks',
-            price: '$2150 | $3950',
+            price: '$2150 / $3950',
             subtext: 'w/ Engineer'
         },
     ]
@@ -62,7 +62,7 @@ export class Booking extends Page {
 
     public renderDesktop = () => {
         return (
-            <div className={'wrapper h-100 d-flex flex-column justify-content-between pl-4 pr-4 mt-4 mb-4'}>
+            <div className={'wrapper d-flex flex-column justify-content-between pl-4 pr-4 mt-4 mb-4'}>
                 <div className={'d-flex flex-column justify-content-between p-4 mt-4 btn-box inactive'}>
                     <div className={'mb-4'}>
                         <div className={'color-white font-title upper display-4 mt-0'}>

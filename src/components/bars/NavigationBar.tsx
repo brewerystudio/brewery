@@ -4,18 +4,21 @@ import './NavigationBar.sass'
 import './Hamburgers.css'
 import { Icon } from '../icon/Icon';
 import { LogoName } from '../icon/LogoName';
-import { NavigationItem } from '../../interfaces/NavigationItem';
+import { NavigationItem } from '../../interfaces'
 import { DeviceUtil } from '../../utils/Device';
+import { addClasses } from '../../constants';
 
 export class NavigationBar extends Component {
 
     public static propTypes = {
         items: t.arrayOf(t.object.isRequired).isRequired,
+        currentItem: t.any,
         onResize: t.func, // onResize(width:number, height:number)
     }
 
     public static defaultProps = {
         items: [],
+        currentItem: null,
         onResize: ()=>{},
     }
 
@@ -33,6 +36,7 @@ export class NavigationBar extends Component {
     public render() {
 
         const navigationItems = (this.props as any).items as NavigationItem[];
+        const currentItem = (this.props as any).currentItem as NavigationItem
 
         return (
             <div ref={r => this.onNavbarResize(r)} className={'navbar-wrapper d-inline-block position-absolute'}>
@@ -61,7 +65,7 @@ export class NavigationBar extends Component {
                             {
                                 navigationItems.map((item:NavigationItem, idx:number) => 
                                     <li key={`nb-${idx}`} className="nav-item" data-menuanchor="Home">
-                                        <a className="nav-link" href={item.url}>{item.title}</a>
+                                        <a className={addClasses('nav-link', currentItem && item.title === currentItem.title ? 'active' : '')} href={item.url}>{item.title}</a>
                                     </li>
                                 )
                             }

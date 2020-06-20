@@ -67,7 +67,7 @@ export class Home extends Page {
                         <div className={'color-primary h5 mt-2'}>
                             BOUTIQUE MUSIC RECORDING STUDIOS IN BROOKLYN & DTLA
                         </div>
-                        <div className={'color-medium font-regular h2 small mt-2'}>
+                        <div className={'color-light font-regular h2 small mt-2'}>
                             America’s only bi-coastal studios with 5 modern recording rooms staffed by NYC and LA’s Platinum selling & Grammy winning engineers & producers, all to deliver the very best service and top amenities for today’s signed artists and independent musicians.
                         </div>
                     </div>
