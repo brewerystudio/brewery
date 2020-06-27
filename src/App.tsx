@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { NavigationBar, Background, BackgroundName } from './components'
 import ReactFullpage from '@fullpage/react-fullpage'
 import { Route } from './interfaces'
-import { Home, Gallery, Clients, Engineers, Info, Booking } from './pages'
+import { Home, Gallery, Clients, Engineers, Info, Booking, Contact } from './pages'
 import { colors, shouts } from './constants'
 import { Navigation, Shout } from './utils'
 import './styles/app.sass'
@@ -46,6 +46,11 @@ export const ROUTES:Route[] = [
         title: 'Booking',
         url: '/booking',
         component: <Booking />
+    },
+    {
+        title: 'Contact',
+        url: '/contact',
+        component: <Contact />
     }
 ]
 
@@ -106,11 +111,13 @@ export class App extends Component {
 		this.setState({ navbarHeight: height })
 	}
 
+	private makeTitle = (pageName: string) => `Brewery Recording – ${pageName}`
+
 	private onLeave = (origin:any, destination:any, direction:'up'|'down') => {
 		const route = ROUTES[destination.index]
 
 		this.setState({ currentRoute: route })
-		Navigation.go(route.url, null, true)
+		Navigation.go(route.url, null, true, this.makeTitle(route.title))
 						
 		// Change background
 		if (destination.index === 0) {
@@ -124,6 +131,8 @@ export class App extends Component {
 		} else if (destination.index === 4) {
 			this.bg.changeBackgroundName(BackgroundName.LoungeNY)
 		} else if (destination.index === 5) {
+			this.bg.changeBackgroundName(BackgroundName.LoungeLA)
+		} else if (destination.index === 6) {
 			this.bg.changeBackgroundName(BackgroundName.LoungeLA)
 		}
 	}
@@ -141,8 +150,10 @@ export class App extends Component {
 				break
 			}
 		}
+		const route = ROUTES[index]
 		if (index >= 0) {
-			this.setState({ currentRoute: ROUTES[index] })
+			this.setState({ currentRoute: route })
+			Navigation.setTitle(this.makeTitle(route.title))
 			this.fullPage.silentMoveTo(index + 1)
 		}
 	}
