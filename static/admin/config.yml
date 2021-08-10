@@ -1,0 +1,106 @@
+backend:
+  name: github
+  repo: brewerystudio/brewery
+  branch: master
+  commit_messages:
+    create: 'Create {{collection}} “{{slug}}”'
+    update: 'Update {{collection}} “{{slug}}”'
+    delete: 'Delete {{collection}} “{{slug}}”'
+    uploadMedia: '[skip ci] Upload “{{path}}”'
+    deleteMedia: '[skip ci] Delete “{{path}}”'
+
+media_folder: static/img
+public_folder: /img
+local_backend: true
+
+collections:
+  - name: "studioGallery"
+    label: "Studio Gallery"
+    folder: "static/studioGalleries"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Template Key", name: "templateKey", widget: "hidden", default: "studioGallery"}
+      - {label: "Studio", name: "studio", widget: "select", options: [
+        { label: "New York", value: "NewYork" },
+        { label: "Los Angeles", value: "LosAngeles" },
+      ] }
+      - {label: "Gallery Images", name: "images", widget: "list", fields: [{label: "Image", name: "image", widget: "image"}, {label: "Caption", name: "caption", widget: "string"}] }
+  - name: "engineer"
+    label: "Engineer"
+    folder: "static/engineers"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Template Key", name: "templateKey", widget: "hidden", default: "engineer"}
+      - {label: "Full Name", name: "name", widget: "string"}
+      - {label: "Studios", name: "studios", widget: "list", field: {label: "Studio", name: "studio", widget: "select", options: [
+        { label: "New York", value: "NewYork" },
+        { label: "Los Angeles", value: "LosAngeles" },
+      ] }}
+      - {label: "Clients", name: "clients", widget: "list"}
+      - {label: "Bio", name: "Bio", widget: "text"}
+      - {label: "Photo", name: "photoURL", widget: "image"}
+      - {label: "Instagram URL", name: "instagramURL", widget: "string"}
+      - {label: "Twitter URL", name: "twitterURL", widget: "string"}
+      - {label: "Facebook URL", name: "facebookURL", widget: "string"}
+      - {label: "Sound Cloud URL", name: "soundCloudURL", widget: "string"}
+      - {label: "Website URL", name: "websiteURL", widget: "string"}
+  - name: "studioGear"
+    label: "Studio Gear"
+    folder: "static/studioGears"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Template Key", name: "templateKey", widget: "hidden", default: "studioGear"}
+      - {label: "Studio", name: "studio", widget: "select", options: [
+        { label: "New York", value: "NewYork" },
+        { label: "Los Angeles", value: "LosAngeles" },
+      ] }
+      - {label: "Rooms", name: "rooms", widget: "list", fields: [{label: "Name", name: "name", widget: string}, {label: "Sections", name: "sections", widget: "list", fields: [{label: "Name", name: "name", widget: string}, {label: "Gear", name: "gear", widget: "list"}] }] }
+  - name: "clients"
+    label: "Clients"
+    folder: "static/clients"
+    widget: "list"
+    create: true
+  - name: "pricing"
+    label: "Pricing"
+    folder: "static/pricing"
+    widget: "list"
+    create: true
+    fields:
+      - {label: "Template Key", name: "templateKey", widget: "hidden", default: "pricing"}
+      - name: "w/ Engineer Prices"
+        label: "withEngineerPrices"
+        widget: "object"
+        collapsed: false
+        fields: 
+        - {label: "Hourly (USD)", name: "hourlyUSD", widget: "number", value_type: "int", min: 1 }
+        - {label: "Half Day (USD)", name: "halfDayUSD", widget: "number", value_type: "int", min: 1 }
+        - {label: "Full Day (USD)", name: "fullDayUSD", widget: "number", value_type: "int", min: 1 }
+      - name: "w/ Producer Prices"
+        label: "withProducerPrices"
+        widget: "object"
+        collapsed: false
+        fields: 
+        - {label: "Hourly (USD)", name: "hourlyUSD", widget: "number", value_type: "int", min: 1 }
+        - {label: "Half Day (USD)", name: "halfDayUSD", widget: "number", value_type: "int", min: 1 }
+        - {label: "Full Day (USD)", name: "fullDayUSD", widget: "number", value_type: "int", min: 1 }
+      - name: "w/ Assistant Prices"
+        label: "withAssistantPrices"
+        widget: "object"
+        collapsed: false
+        fields: 
+        - {label: "Hourly (USD)", name: "hourlyUSD", widget: "number", value_type: "int", min: 1 }
+        - {label: "Half Day (USD)", name: "halfDayUSD", widget: "number", value_type: "int", min: 1 }
+        - {label: "Full Day (USD)", name: "fullDayUSD", widget: "number", value_type: "int", min: 1 }
+      - name: "Specials"
+        label: "specials"
+        widget: "list"
+        fields: 
+        - {label: "Name", name: "name", widget: "string" }
+        - {label: "Schedule", name: "schedule", widget: "string", default: "7AM - 12AM daily" }
+        - {label: "Caption", name: "caption", widget: "string", default: "w/ Engineer" }
+        - {label: "Hourly (USD)", name: "hourlyUSD", widget: "number", value_type: "int", min: 1 }
+        - {label: "Half Day (USD)", name: "halfDayUSD", widget: "number", value_type: "int", min: 1 }
+        - {label: "Full Day (USD)", name: "fullDayUSD", widget: "number", value_type: "int", min: 1 }

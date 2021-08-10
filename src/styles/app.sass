@@ -1,9 +1,4 @@
 /**
- *  Fonts
- */
-@import url('https://fonts.googleapis.com/css?family=Abel|Montserrat:400,700|Ropa+Sans&display=swap');
-
-/**
  *  Colors
  */
     
@@ -31,7 +26,7 @@ $clear: transparent
 body
     font-family: 'Montserrat', sans-serif
     outline: none
-    background-color: $black
+    background-color: $black !important
 
 .section
     overflow: hidden
@@ -220,16 +215,16 @@ textarea:focus, input:focus, *:focus
     background-color: $white
 
 .bg-primary
-    background-color: $primary
+    background-color: $primary !important
 
 .bg-secondary
-    background-color: $secondary
+    background-color: $secondary !important
 
 .bg-tertiary
-    background-color: $tertiary
+    background-color: $tertiary !important
 
 .bg-quaternary
-    background-color: $quaternary
+    background-color: $quaternary !important
 
 /**
  *  Line Heights
@@ -252,15 +247,5 @@ textarea:focus, input:focus, *:focus
 .line-double
     line-height: 2
 
-/**
- *  Horizontal Scrolling
- */
-.h-scroll
-    overflow-y: hidden
-    overflow-x: scroll
-    white-space: nowrap
-    -webkit-overflow-scrolling: touch
-    touch-action: pan-y
-
-.h-scroll > *
-    display: inline-block
+.test
+    border: solid 1px red

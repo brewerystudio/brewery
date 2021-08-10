@@ -1,7 +1,0 @@
-export * from './home'
-export * from './gallery'
-export * from './clients'
-export * from './engineers'
-export * from './info'
-export * from './booking'
-export * from './contact'

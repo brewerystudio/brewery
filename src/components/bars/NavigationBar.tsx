@@ -2,11 +2,10 @@ import React, { Component } from 'react'
 import * as t from 'prop-types'
 import './NavigationBar.sass'
 import './Hamburgers.css'
-import { Icon } from '../icon/Icon';
-import { LogoName } from '../icon/LogoName';
+import { Icon } from '../icon/Icon'
+import { LogoName } from '../icon/LogoName'
 import { NavigationItem } from '../../interfaces'
-import { DeviceUtil } from '../../utils/Device';
-import { addClasses } from '../../constants';
+import { DeviceUtil, Styles } from '../../utils'
 
 export class NavigationBar extends Component {
 
@@ -54,7 +53,7 @@ export class NavigationBar extends Component {
                         }
                     </a>
                     <button onMouseDown={() => this.toggleNavBar()} className={`navbar-toggler hamburger ${this.state.isNavBarCollapsed ? '' : 'is-active'}`} type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarText" aria-label="toggleNavBar">
-                        <div className={`hamburger hamburger--minus  ${this.state.isNavBarCollapsed ? '' : 'is-active'}`}>
+                        <div className={`hamburger hamburger--minus  ${!this.state.isNavBarCollapsed ? '' : 'is-active'}`}>
                                 <div className="hamburger-box">
                                     <div className="hamburger-inner"></div>
                                 </div>
@@ -65,7 +64,7 @@ export class NavigationBar extends Component {
                             {
                                 navigationItems.map((item:NavigationItem, idx:number) => 
                                     <li key={`nb-${idx}`} className="nav-item" data-menuanchor="Home">
-                                        <a className={addClasses('nav-link', currentItem && item.title === currentItem.title ? 'active' : '')} href={item.url}>{item.title}</a>
+                                        <a className={Styles.classNames('nav-link', currentItem && item.title === currentItem.title ? 'active' : '')} href={item.url}>{item.title}</a>
                                     </li>
                                 )
                             }

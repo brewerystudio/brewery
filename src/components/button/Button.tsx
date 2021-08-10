@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import * as t from 'prop-types'
-import { colors, addClasses } from '../../constants'
+import { colors } from '../../constants'
 import { Icon } from '../icon'
-import { DeviceUtil } from '../../utils'
+import { DeviceUtil, Styles } from '../../utils'
 import './Button.sass'
 
 enum ButtonState {
@@ -10,6 +10,8 @@ enum ButtonState {
     hovered,
     pressed,
 }
+
+const DISABLED_OPACITY = 0.6
 
 export class Button extends Component {
 
@@ -31,6 +33,7 @@ export class Button extends Component {
         activeMagnify: t.number,
         className: t.string,
         containerClassName: t.string,
+        disabled: t.bool,
     }
 
     public static defaultProps = {
@@ -48,30 +51,29 @@ export class Button extends Component {
         activeMagnify: 1.1,
         className: '',
         containerClassName: '',
+        disabled: false,
     }
 
     constructor(props:any) {
         super(props)
         this.buttonState = ButtonState.normal
-        const { borderColor, backgroundColor, iconColor, textColor } = (this.props) as any
-        this.state = { borderColor, backgroundColor, iconColor, textColor, opacity: 1, magnify: 1 }
+        this.state = { opacity: 1, magnify: 1 }
     }
 
     public render() {
-        const { text, borderRadius, borderWidth, iconName, fontSize, iconSize, containerClassName, className, children } = (this.props) as any
-        const { borderColor, backgroundColor, iconColor, textColor, opacity, magnify } = (this.state) as any
+        const { text, borderRadius, borderWidth, iconName, fontSize, iconSize, containerClassName, className, children, textColor, borderColor, backgroundColor, iconColor, disabled } = (this.props) as any
+        const { opacity, magnify } = (this.state) as any
         return (
             <span
-                className={addClasses('d-inline-block', containerClassName)}
+                className={Styles.classNames('d-inline-block', containerClassName)}
+                style={{ opacity: disabled ? DISABLED_OPACITY : opacity, cursor: disabled ? 'default' : 'pointer' }}
             >
                 <div
-                    onTouchStart={this.onMouseDown}
-                    onTouchEnd={this.onMouseUp}
-                    onMouseDown={this.onMouseDown}
+                    onMouseDown={!disabled ? this.onMouseDown : undefined}
                     onMouseUp={this.onMouseUp}
-                    onMouseEnter={this.onHover}
+                    onMouseEnter={!disabled ? this.onHover : undefined}
                     onMouseLeave={this.onHoverOut}
-                    className={addClasses('d-flex align-items-center justify-content-start button-wrapper animated', className)}
+                    className={Styles.classNames('d-flex align-items-center justify-content-start button-wrapper animated', className)}
                     style={{ borderRadius, borderColor, backgroundColor, borderWidth, opacity, transform: `scale(${magnify})` }}
                 >
                     {
@@ -97,11 +99,9 @@ export class Button extends Component {
     private onMouseDown = () => {
         this.buttonState = ButtonState.pressed
         const activeOpacity = (this.props as any).activeOpacity
-        if (!DeviceUtil.isM()) { 
+        if (DeviceUtil.isM()) { 
             this.setState({ opacity: activeOpacity })
-            return this.onHover()
         }
-        this.setState({ opacity: activeOpacity })
         const onClick = (this.props as any).onClick
         onClick()
     }
@@ -109,9 +109,6 @@ export class Button extends Component {
     private onMouseUp = () => {
         this.buttonState = ButtonState.normal
         this.setState({ opacity: 1 })
-        if (!DeviceUtil.isM()) { 
-            return this.onHoverOut()
-        }
     }
 
     private onHover = () => {

@@ -3,10 +3,11 @@ import * as t from 'prop-types'
 import { BackgroundName } from './BackgroundName';
 import { colors } from '../../constants'
 import './Background.sass'
+import { Image } from '../image'
 
 export class Background extends Component {
 
-    private bg!:HTMLDivElement
+    private bg!: any
 
     public static propTypes = {
         fade: t.bool,
@@ -57,9 +58,10 @@ export class Background extends Component {
         const overlayColor:string = (this.props as any).overlayColor
         const overlayOpacity:string = (this.props as any).overlayOpacity
         const position:"fixed" | "absolute" | "-moz-initial" | "inherit" | "initial" | "revert" | "unset" | "-webkit-sticky" | "relative" | "static" | "sticky" | undefined = (this.props as any).position
+        const backgroundSrc = this.state.backgroundName ? `assets/${this.state.backgroundName}` : undefined
         return (
             <div>
-                <div ref={r => this.bg = r!} className={'bg'} style={{ position, background: `${backgroundColor} url(assets/${this.state.backgroundName})` }}></div>
+                <Image ref={r => this.bg = r!} className={'bg'} style={{ position, backgroundColor }} src={backgroundSrc} />
                 <div className={'overlay'} style={{ backgroundColor: overlayColor, opacity: overlayOpacity }}></div>
             </div>
         )

@@ -6,4 +6,6 @@ export const shouts = {
     PAGE_SCROLL_OFF: "PAGE_SCROLL_OFF",
     /** Turn on page scrolling. */
     PAGE_SCROLL_ON: "PAGE_SCROLL_ON",
+    /** Toggle popup page scrolling. */
+    POPUP_SCROLL_TOGGLE: "POPUP_SCROLL_TOGGLE",
 }

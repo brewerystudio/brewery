@@ -1,3 +1,5 @@
+import { isBrowser } from "../constants"
+
 export class Navigation {
 	
 	public static go = (url:string, newTab:boolean|null = false, replace:boolean|null = false, title:string|null = null) => {
@@ -10,11 +12,11 @@ export class Navigation {
     }
 	
 	public static getPath = () => {
-        return window.location.pathname
+        return isBrowser ? window.location.pathname : ''
     }
 
     public static setTitle = (title: string) => {
-        document.title = title
+        isBrowser && (document.title = title)
     }
 
 }

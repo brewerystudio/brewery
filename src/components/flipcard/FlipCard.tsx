@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import * as t from 'prop-types'
 import './FlipCard.sass'
-
-import { addClasses } from '../../constants'
+import { Styles } from '../../utils'
 
 // Denotes the side the user can click on to flip it automatically
 type FlipSide = 'both' | 'front' | 'back' | 'none' | null | undefined
@@ -27,7 +26,7 @@ export class FlipCard extends Component {
         const { containerStyle, className, childrenFront, childrenBack } = this.props as any
 
         return (
-            <div ref={r => this.container = r!} className={addClasses('flip-card animated-slow', className)} style={containerStyle}>
+            <div ref={r => this.container = r!} className={Styles.classNames('flip-card animated-slow', className)} style={containerStyle}>
                 <div className={'flip-card-inner'}>
                     <div ref={r => this.front = r!} className={'flip-card-front'}>{childrenFront}</div>
                     <div ref={r => this.back = r!} className={'flip-card-back'}>{childrenBack}</div>
@@ -52,7 +51,7 @@ export class FlipCard extends Component {
             $(this.container).css('cursor', flipOnClick && flipOnClick !== 'front' && flipOnClick !== 'none' ? 'pointer' : 'default')
             $(this.back).show()
             $(this.front).animate({ opacity: 0 }, 100)
-            $(this.back).animate({ opacity: 1 }, 100)
+            $(this.back).animate({ opacity: 1 }, 500)
             setTimeout(() => $(this.front).hide(), 100)
             this.isFlipped = true
         } else if (this.isFlipped && (toBack === false || toBack === undefined)) {
@@ -60,7 +59,7 @@ export class FlipCard extends Component {
             $(this.container).css('transform', 'rotateY(0deg)')
             $(this.container).css('cursor', flipOnClick && flipOnClick !== 'back' && flipOnClick !== 'none' ? 'pointer' : 'default')
             $(this.front).show()
-            $(this.front).animate({ opacity: 1 }, 100)
+            $(this.front).animate({ opacity: 1 }, 500)
             $(this.back).animate({ opacity: 0 }, 100)
             setTimeout(() => $(this.back).hide(), 100)
             this.isFlipped = false

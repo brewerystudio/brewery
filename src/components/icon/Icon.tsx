@@ -1,55 +1,75 @@
-import React, { Component } from 'react'
-import * as t from 'prop-types'
-import { colors } from '../../constants'
-import { ReactSVG } from 'react-svg'
+import React, { useMemo, forwardRef } from "react"
+import { graphql, useStaticQuery } from "gatsby"
+import { Image } from '../image'
+import { ReactSVG } from "react-svg"
 
-export class Icon extends Component {
-
-    public static propTypes = {
-        name: t.string.isRequired,
-        fill: t.string,
-        width: t.oneOfType([ t.string, t.number ]),
-        height: t.oneOfType([ t.string, t.number ]),
-        className: t.string,
-        viewBox: t.string,
-        onClick: t.func,
-    }
-
-    public static defaultProps = {
-        fill: colors.white,
-        width: 40,
-        height: 40,
-        onClick: () => {},
-    }
-
-    public render() {
-        const { name, fill, width, height, className, onClick } = this.props as any
-        return (
-            <ReactSVG
-                src={`assets/${name}`}
-                afterInjection={(error, svg) => {
-                    if (error) {
-                        console.error(error)
-                        return
-                    }
-                }}
-                beforeInjection={svg => {
-                    svg.classList.add(className)
-                    svg.setAttribute('fill', fill)
-                    svg.setAttribute('width', width)
-                    svg.setAttribute('height', height)
-                }}
-                evalScripts="always"
-                fallback={() => <span>Error!</span>}
-                loading={() => <span>Loading</span>}
-                renumerateIRIElements={false}
-                wrapper="span"
-                className="wrapper-class-name"
-                onClick={onClick}
-            />
-        )
-    }
-
-
-
+interface IconProps {
+    name: string,
+    fill?: string,
+    width?: string | number,
+    height?: string | number,
+    className?: string,
+    viewBox?: string,
+    onClick?: ()=>void
 }
+
+export const Icon = forwardRef((props: IconProps, ref: any) => {
+    const data = useStaticQuery(graphql`
+        query {
+            images: allFile(filter: { internal: { mediaType: { regex: "/image/" } } })
+            {
+                edges {
+                    node {
+                        relativePath
+                        extension
+                        publicURL
+                        childImageSharp {
+                            fluid(maxWidth: 600) {
+                                ...GatsbyImageSharpFluid
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    `)
+
+    const src = `assets/${props.name}`
+
+    const match = useMemo(() => data.images.edges.find(({ node }: any) => src === node.relativePath),
+        [data, src]
+    )
+
+    if (!match) {
+        return null
+    }
+
+    if (match.node.extension !== "svg") {
+        return <Image src={match.node.publicURL} />
+    }
+
+    return (
+        <ReactSVG
+            src={match.node.publicURL}
+            afterInjection={(error: any) => {
+                if (error) {
+                    console.error(error)
+                    return
+                }
+            }}
+            beforeInjection={(svg: any) => {
+                svg.classList.add(props.className)
+                svg.setAttribute('fill', props.fill)
+                svg.setAttribute('width', props.width)
+                svg.setAttribute('height', props.height)
+            }}
+            evalScripts="always"
+            fallback={() => <span>Error!</span>}
+            loading={() => <span>Loading</span>}
+            renumerateIRIElements={false}
+            wrapper="span"
+            className="wrapper-class-name"
+            onClick={props.onClick}
+        />
+    )
+})
