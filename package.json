@@ -21,7 +21,7 @@
     "aws-sdk": "^2.680.0",
     "bootstrap": "^4.4.1",
     "browserify-fs": "^1.0.0",
-    "gatsby": "^3.11.0",
+    "gatsby": "2.0.0",
     "gatsby-cli": "^2.12.60",
     "gatsby-image": "^3.11.0",
     "gatsby-plugin-manifest": "^2.4.18",
