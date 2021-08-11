@@ -9469,7 +9469,7 @@ var plugins = [{
     "plugins": [],
     "name": "brewerystudio.com",
     "short_name": "brewerystudio.com",
-    "icon": "src/images/favicon.ico",
+    "icon": "src/images/favicon.png",
     "legacy": true,
     "theme_color_in_head": true,
     "cache_busting_mode": "query",

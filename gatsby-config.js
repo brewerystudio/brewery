@@ -86,7 +86,7 @@ module.exports = {
       options: {
         name: 'brewerystudio.com',
         short_name: 'brewerystudio.com',
-        icon: 'src/images/favicon.ico',
+        icon: 'src/images/favicon.png',
       }
     },
     {
