@@ -6,7 +6,8 @@ module.exports = {
   plugins: [
     'gatsby-plugin-react-helmet',
     {
-      resolve: 'gatsby-plugin-sass'
+      resolve: 'gatsby-plugin-sass',
+      implementation: require('sass'),
     },
     'gatsby-plugin-typescript',
     {
