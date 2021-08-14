@@ -7,7 +7,7 @@ module.exports = {
     'gatsby-plugin-react-helmet',
     {
       resolve: 'gatsby-plugin-sass',
-      implementation: require('sass'),
+      sassOptions: { indentedSyntax: true },
     },
     'gatsby-plugin-typescript',
     {
@@ -59,7 +59,7 @@ module.exports = {
       options: {
         plugins: [
           {
-            resolve: 'gatsby-remark-relative-images',
+            resolve: 'gatsby-remark-relative-images-v2',
             options: {
               name: 'uploads',
             },
@@ -100,7 +100,6 @@ module.exports = {
       resolve: 'gatsby-plugin-purgecss', // purges all unused/unreferenced css rules
       options: {
         develop: true, // Activates purging in npm run develop
-        purgeOnly: [`${__dirname}/src/styles/app.sass`], // applies purging only on the bulma css file
       },
     }, // must be after other CSS plugins
     {

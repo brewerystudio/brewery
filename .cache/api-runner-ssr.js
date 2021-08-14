@@ -5,7 +5,7 @@ var plugins = [{
     },{
       name: 'gatsby-plugin-manifest',
       plugin: require('/Users/Anthony/dev/brewery/node_modules/gatsby-plugin-manifest/gatsby-ssr'),
-      options: {"plugins":[],"name":"brewerystudio.com","short_name":"brewerystudio.com","icon":"src/images/favicon.png","legacy":true,"theme_color_in_head":true,"cache_busting_mode":"query","crossOrigin":"anonymous","include_favicon":true,"cacheDigest":null},
+      options: {"plugins":[],"name":"brewerystudio.com","short_name":"brewerystudio.com","icon":"src/images/favicon.png","legacy":true,"theme_color_in_head":true,"cache_busting_mode":"query","crossOrigin":"anonymous","include_favicon":true,"cacheDigest":"a0cc0f84c0b2ca2e91667391d2f476ab"},
     },{
       name: 'default-site-plugin',
       plugin: require('/Users/Anthony/dev/brewery/gatsby-ssr'),
