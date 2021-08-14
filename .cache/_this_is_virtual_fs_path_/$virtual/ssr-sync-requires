@@ -4,7 +4,6 @@
   
 
 exports.ssrComponents = {
-  "component---cache-dev-404-page-js": preferDefault(require("/Users/Anthony/dev/brewery/.cache/dev-404-page.js")),
-  "component---src-pages-index-tsx": preferDefault(require("/Users/Anthony/dev/brewery/src/pages/index.tsx"))
+  "component---cache-dev-404-page-js": preferDefault(require("/Users/Anthony/dev/brewery/.cache/dev-404-page.js"))
   }
 

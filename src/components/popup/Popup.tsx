@@ -5,7 +5,7 @@ import 'reactjs-popup/dist/index.css'
 import { useWindowSize } from 'use-hooks'
 import { colors, isBrowser, shouts, transparent } from '../../constants'
 import { DeviceUtil, Shout } from '../../utils'
-import styles from './Popup.module.sass'
+import './Popup.sass'
 
 export const POPUP_OVERLAY_COLOR = transparent(colors.white, 0.6)
 
@@ -76,7 +76,7 @@ export const Popup = (props: PopupProps) => {
 				transition: '0.3s ease',
 			}}
 			className={containerClassName}
-			children={<div ref={onClickOutsideRef} style={{ width }} className={`${styles.popup} btn-box shadow-l ${className}`}>{props.children}</div>}
+			children={<div ref={onClickOutsideRef} style={{ width }} className={`popup btn-box shadow-l ${className}`}>{props.children}</div>}
 		/>
 	)
 }
