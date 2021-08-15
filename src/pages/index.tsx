@@ -6,6 +6,17 @@ import { Navigation, Shout } from "../utils"
 import { colors, shouts } from "../constants"
 import { Booking, Clients, Contact, Engineers, Gallery, Home, Info } from "../templates"
 import ReactFullpage from '@fullpage/react-fullpage'
+import '../styles/app.sass'
+
+const fpWrapperOverrideStyles = (
+	<style dangerouslySetInnerHTML={{__html: `
+		.fp-tableCell {
+			display: flex !important;
+			align-items: center !important;
+			height: 100% !important;
+		}
+	`}} />
+)
 
 export class App extends Component {
 
@@ -96,12 +107,11 @@ export class App extends Component {
 						}
 						return (
 							<ReactFullpage.Wrapper>
+								{fpWrapperOverrideStyles}
 								{
 									this.routes.map((route:Route, idx:number) => (
-										<div key={`pg-${idx}`} className={'section'}>
-											<div className={'h-100 d-flex flex-row align-items-center justify-content-stretch'}>
-												{ route.component }
-											</div>
+										<div key={`pg-${idx}`} className={'section'} style={{ paddingTop }}>
+											{ route.component }
 										</div>
 									))
 								}
@@ -114,8 +124,10 @@ export class App extends Component {
 		)
 	}
 
-	private onNavbarResize = (width:number, height:number) => {
-		this.setState({ navbarHeight: height })
+	private onNavbarResize = (_: number, height: number) => {
+		if (this.state.navbarHeight !== height) {
+			this.setState({ navbarHeight: height })
+		}
 	}
 
 	private makeTitle = (pageName: string) => `Brewery Recording – ${pageName}`
@@ -151,8 +163,7 @@ export class App extends Component {
 		const path = Navigation.getPath()
 		let index = -1
 		for (let i = 0; i < this.routes.length; i++) {
-			const route = this.routes[i]
-			if (route.url.includes(path)) {
+			if (this.routes[i].url.includes(path)) {
 				index = i
 				break
 			}

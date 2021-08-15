@@ -48,7 +48,7 @@ export class NavigationBar extends Component {
                         {
                             !this.state.isNavBarSmall &&
                             <div>
-                                <div className="h7 p-0 m-0 color-medium line-regular">(844) 717-2739</div>
+                                <div className="h7 p-0 m-0 color-medium line-regular text-left">(844) 717-2739</div>
                             </div>
                         }
                     </a>

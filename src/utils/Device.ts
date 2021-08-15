@@ -1,12 +1,10 @@
 import { isBrowser } from "../constants"
 
 export enum DeviceSize {
-    
     LARGE = 1199.98,
     MEDIUM = 991.98,
     SMALL = 767.98,
     X_SMALL = 575.98,
-
 }
 
 export class DeviceUtil {

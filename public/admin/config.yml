@@ -63,6 +63,8 @@ collections:
     folder: "static/clients"
     widget: "list"
     create: true
+    fields:
+      - {label: "Name", name: "clientName", widget: "string"}
   - name: "pricing"
     label: "Pricing"
     folder: "static/pricing"

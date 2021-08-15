@@ -1,45 +1,31 @@
-import { Component, ReactNode } from 'react'
-import { DeviceUtil } from '../utils'
+import React, { Component, ReactElement, ReactNode } from 'react'
 
 export class Page<T = {}> extends Component<T> {
 
-    constructor(props:any) {
+    public renderDesktop?: ()=>ReactElement | null
+    public renderMobile?: ()=>ReactElement | null
+
+    constructor(props: any) {
         super(props)
-        const tempRender = this.render
         this.render = this.renderResponsive
-        this.renderAll = tempRender
-        DeviceUtil.onResize(() => {
-            const isDesktop = DeviceUtil.isM()
-            if (this.state.isDesktop !== isDesktop) {
-                this.setState({ isDesktop })
-            }
-        })
-    }
-
-    public state = {
-        isDesktop: null
-    } as any
-
-    public renderDesktop(): ReactNode {
-        return null
-    }
-
-    public renderMobile(): ReactNode {
-        return null
     }
 
     private renderResponsive(): ReactNode {
-        if (DeviceUtil.isM() && this.renderDesktop && this.renderDesktop()) {
-            return this.renderDesktop()
-        } else if (this.renderMobile && this.renderMobile()) {
-            return this.renderMobile()
-        } else {
-            return this.renderAll()
-        }
+        return (
+            <>
+                {
+                    this.renderDesktop &&
+                    <div className={'d-none d-sm-flex flex-row align-items-center h-100 w-100'}>
+                        {this.renderDesktop()}
+                    </div>
+                }
+                {
+                    this.renderMobile &&
+                    <div className={'d-flex d-sm-none flex-row align-items-center h-100 w-100'}>
+                        {this.renderMobile()}
+                    </div>
+                }
+            </>
+        )
     }
-
-    private renderAll(): ReactNode {
-        return null
-    }
-
 }

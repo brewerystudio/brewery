@@ -8,8 +8,8 @@ export class Home extends Page {
 
     public renderDesktop = () => {
         return (
-            <div className={'wrapper h-85 d-flex flex-column justify-content-between pl-4 pr-4 mt-4 mb-4'}>
-                <div className={'d-flex h-75 flex-row align-items-center justify-content-center pt-4 mt-4'}>
+            <div className={'wrapper d-flex flex-column align-items-center justify-content-between pl-4 pr-4 mt-4 mb-4'}>
+                <div className={'d-flex'}>
                     <div>
                         <div className={'mt-4'}>
                             <div className={'color-white font-title upper display-3'}>
