@@ -12,6 +12,12 @@ export class FlipCard extends Component {
     public front!:HTMLDivElement
     public back!:HTMLDivElement
     private isFlipped:boolean = false
+    
+    state = {
+        showFront: true,
+        showBack: false,
+        isFlipping: false,
+    }
 
     public componentDidMount = () => {
         const { flipOnClick } = this.props as any
@@ -24,12 +30,13 @@ export class FlipCard extends Component {
 
     public render = () => {
         const { containerStyle, className, childrenFront, childrenBack } = this.props as any
+        const { showFront, showBack } = this.state
 
         return (
-            <div ref={r => this.container = r!} className={Styles.classNames('flip-card animated-slow', className)} style={containerStyle}>
-                <div className={'flip-card-inner'}>
-                    <div ref={r => this.front = r!} className={'flip-card-front'}>{childrenFront}</div>
-                    <div ref={r => this.back = r!} className={'flip-card-back'}>{childrenBack}</div>
+            <div ref={r => this.container = r!} className={Styles.classNames('flip-card animated-slow normal-scroll', className)} style={containerStyle}>
+                <div className={'flip-card-inner normal-scroll'}>
+                    { showFront && <div ref={r => this.front = r!} className={'flip-card-front'}>{childrenFront}</div> }
+                    { showBack && <div ref={r => this.back = r!} className={'flip-card-back'}>{childrenBack}</div> }
                 </div>
             </div>
         )
@@ -43,25 +50,34 @@ export class FlipCard extends Component {
     }
 
     public flip = (toBack:boolean|undefined = undefined) => {
+        if (this.state.isFlipping) {
+            return
+        }
+
         const flipOnClick:FlipSide = (this.props as any).flipOnClick
+
+        this.setState({ isFlipping: true })
+        setTimeout(() => this.setState({ isFlipping: false }), 500)
 
         if (!this.isFlipped && (toBack === true || toBack === undefined)) {
             // Flip to back
             $(this.container).css('transform', 'rotateY(180deg)')
             $(this.container).css('cursor', flipOnClick && flipOnClick !== 'front' && flipOnClick !== 'none' ? 'pointer' : 'default')
-            $(this.back).show()
             $(this.front).animate({ opacity: 0 }, 100)
-            $(this.back).animate({ opacity: 1 }, 500)
-            setTimeout(() => $(this.front).hide(), 100)
+            setTimeout(() => {
+                this.setState({ showFront: false, showBack: true })
+                $(this.back).animate({ opacity: 1 }, 500)
+            }, 100)
             this.isFlipped = true
         } else if (this.isFlipped && (toBack === false || toBack === undefined)) {
             // Flip to front
             $(this.container).css('transform', 'rotateY(0deg)')
             $(this.container).css('cursor', flipOnClick && flipOnClick !== 'back' && flipOnClick !== 'none' ? 'pointer' : 'default')
-            $(this.front).show()
-            $(this.front).animate({ opacity: 1 }, 500)
             $(this.back).animate({ opacity: 0 }, 100)
-            setTimeout(() => $(this.back).hide(), 100)
+            setTimeout(() => {
+                this.setState({ showFront: true, showBack: false })
+                $(this.front).animate({ opacity: 1 }, 500)
+            }, 100)
             this.isFlipped = false
         }
     }

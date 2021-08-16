@@ -5,7 +5,6 @@ import { GalleryImage, Studio, StudioGallery, STUDIO_TO_NAME_MAP } from '../../i
 import { Page } from '../Page'
 import './Gallery.sass'
 
-
 interface GalleryProps {
     galleries: StudioGallery[]
 }
@@ -16,62 +15,12 @@ export class Gallery extends Page<GalleryProps> {
     private caption!:HTMLDivElement
     private captionSmall!:HTMLDivElement
 
-    private studios: StudioGallery[] = [
-        {
-            studio: 'NewYork',
-            images: [
-                // NY Room A
-                { src: 'ny_room_a_1.jpg', caption: 'Room A' },
-                { src: 'ny_room_a_2.jpg', caption: 'Room A' },
-                { src: 'ny_room_a_3.jpg', caption: 'Room A' },
-                { src: 'ny_room_a_4.jpg', caption: 'Room A' },
-                { src: 'ny_room_a_5.jpg', caption: 'Room A' },
-                // NY Lounge A
-                { src: 'ny_room_a_6.jpg', caption: 'Lounge A' },
-                // NY Room B
-                { src: 'ny_room_b_1.jpg', caption: 'Room B' },
-                { src: 'ny_room_b_2.jpg', caption: 'Room B' },
-                { src: 'ny_room_b_3.jpg', caption: 'Room B' },
-                { src: 'ny_room_b_4.jpg', caption: 'Room B' },
-                { src: 'ny_room_b_5.jpg', caption: 'Room B' },
-                // NY Lounge B
-                { src: 'ny_room_b_6.jpg', caption: 'Lounge B' },
-                // NY Room C
-                { src: 'ny_room_c_1.jpg', caption: 'Room Room C' },
-                { src: 'ny_room_c_2.jpg', caption: 'Room C' },
-                { src: 'ny_room_c_3.jpg', caption: 'Room C' },
-                { src: 'ny_room_c_4.jpg', caption: 'Room C' },
-                { src: 'ny_room_c_5.jpg', caption: 'Room C' },
-            ],
-        },
-        {
-            studio: 'LosAngeles',
-            images: [
-                // LA Room A
-                { src: 'la_room_a_1.jpg', caption: 'Room A' },
-                { src: 'la_room_a_2.jpg', caption: 'Room A' },
-                { src: 'la_room_a_3.jpg', caption: 'Room A' },
-                { src: 'la_room_a_4.jpg', caption: 'Room A' },
-                { src: 'la_room_a_5.jpg', caption: 'Room A' },
-                // LA Lounge A
-                { src: 'la_room_a_6.jpg', caption: 'Lounge A' },
-                // LA Room B
-                { src: 'la_room_b_1.jpg', caption: 'Room B' },
-                { src: 'la_room_b_2.jpg', caption: 'Room B' },
-                { src: 'la_room_b_3.jpg', caption: 'Room B' },
-                { src: 'la_room_b_4.jpg', caption: 'Room B' },
-                { src: 'la_room_b_5.jpg', caption: 'Room B' },
-                // LA Lounge B
-                { src: 'la_room_b_6.jpg', caption: 'Lounge B' },
-            ],
-        },
-    ]
     private allImages!: (GalleryImage & { studio: Studio })[]
 
     constructor(props: any) {
         super(props)
         this.allImages = []
-        for (const studio of this.studios) {
+        for (const studio of this.props.galleries) {
             for (const image of studio.images) {
                 this.allImages.push({...image, studio: studio.studio})
             }
@@ -86,7 +35,7 @@ export class Gallery extends Page<GalleryProps> {
                 const caption = this.allImages[idx].caption.toUpperCase()
                 const studio = STUDIO_TO_NAME_MAP[this.allImages[idx].studio].toUpperCase()
                 this.caption && (this.caption.innerHTML = `${studio}<br/>${caption}`)
-                this.captionSmall.innerHTML = `${studio} | ${caption}`
+                this.captionSmall && (this.captionSmall.innerHTML = `${studio} | ${caption}`)
             }
         })
         this.setImage(0)
@@ -95,6 +44,13 @@ export class Gallery extends Page<GalleryProps> {
     public renderDesktop = () => {
         return (
             <div className={'wrapper h-100'}>
+                <style
+                    dangerouslySetInnerHTML={{ __html: `
+                        .fp-controlArrow {
+                            display: none !important;
+                        }
+                    `}}
+                />
                 <div className={'d-flex align-items-stretch unselectable'}>
                     <div id="carousel" ref={r => this.mainCarousel = r!} onMouseOver={this.hideOverlay} onMouseOut={this.showOverlay} className={'carousel slide gallery-main-carousel animated-slow'} data-ride="carousel">
                         <div className={"carousel-inner"}>
@@ -154,13 +110,15 @@ export class Gallery extends Page<GalleryProps> {
     }
 
     private setImage = (idx:number) => {
-        ($("#carousel") as any).carousel(idx)
-        const caption = this.allImages[idx].caption.toUpperCase()
-        if (this.caption) {
-            this.caption.innerHTML = caption.replace('\n', '<br>')
-        }
-        if (this.captionSmall) {
-            this.captionSmall.innerHTML = caption.replace('\n', ' | ')
+        if (this.allImages.length > 0 && idx >= 0) {
+            ($("#carousel") as any).carousel(idx)
+            const caption = this.allImages[idx].caption.toUpperCase()
+            if (this.caption) {
+                this.caption.innerHTML = caption.replace('\n', '<br>')
+            }
+            if (this.captionSmall) {
+                this.captionSmall.innerHTML = caption.replace('\n', ' | ')
+            }
         }
     }
 

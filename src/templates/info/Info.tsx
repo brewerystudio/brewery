@@ -1,9 +1,9 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Page } from '../Page'
 import './Info.sass'
 
 import { DeviceUtil, Shout } from '../../utils'
-import { Icon, IconName, FlipCard, Image } from '../../components'
+import { Icon, IconName, FlipCard, Image, Button } from '../../components'
 import { shouts } from '../../constants'
 import { StudioGear } from '../../interfaces'
 
@@ -18,8 +18,11 @@ export class Info extends Page<InfoProps> {
     private static FULL_CARD_HEIGHT_PCT = .65
     private static CARD_PADDING_PX = 8
 
-    private nyGearFlipCard!:FlipCard
-    private laGearFlipCard!:FlipCard
+    private nyGearFlipCardMobile!:FlipCard
+    private laGearFlipCardMobile!:FlipCard
+
+    private nyGearFlipCardDesktop!:FlipCard
+    private laGearFlipCardDesktop!:FlipCard
 
     public state = {
         page: 'services' as InfoPage,
@@ -76,12 +79,12 @@ export class Info extends Page<InfoProps> {
                                     <FlipCard className={'w-100 h-100 info-thumbnail-small color-white btn-box'}
                                         childrenFront={
                                             <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
-                                                <Icon name={IconName.Microphone} width={'2rem'} height={'4rem'} />
+                                                <Icon name={IconName.Microphone} width={'2rem'} height={'4rem'} fill={'white'}  />
                                                 <div className={'font-title h6 mt-3 upper'}>RECORDING & EDITING</div>
                                             </div>
                                         }
                                         childrenBack={
-                                            <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
+                                            <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center p-4'}>
                                                 <div className={'font-title h5 mb-2 upper'}>RECORDING & EDITING</div>
                                                 <div className={'font-secondary h6 lh-1.25 color-light'}>5 control rooms w/ vocal booths & live rooms for tracking</div>
                                                 <div className={'font-secondary h6 lh-1.25 color-light'}>Pro Tools & premium outboard plus dozens of microphone choices</div>
@@ -94,12 +97,12 @@ export class Info extends Page<InfoProps> {
                                     <FlipCard className={'info-thumbnail-small color-white btn-box animated w-100 d-flex flex-column justify-content-center align-items-center'}
                                         childrenFront={
                                             <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
-                                                <Icon name={IconName.Microphone} width={'2rem'} height={'4rem'} />
+                                                <Icon name={IconName.Microphone} width={'2rem'} height={'4rem'} fill={'white'}  />
                                                 <div className={'font-title h6 mt-3 upper'}>MIXING & MASTERING</div>
                                             </div>
                                         }
                                         childrenBack={
-                                            <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
+                                            <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center p-4'}>
                                                 <div className={'font-title h5 mb-2 upper'}>MIXING & MASTERING</div>
                                                 <div className={'font-secondary h6 lh-1.25 color-light'}>Platinum-selling & grammy award-winning engineers</div>
                                                 <div className={'font-secondary h6 lh-1.25 color-light'}>Mix previously recorded tracks or sessions</div>
@@ -115,12 +118,12 @@ export class Info extends Page<InfoProps> {
                                     <FlipCard className={'info-thumbnail-small color-white btn-box animated w-100 d-flex flex-column justify-content-center align-items-center'}
                                         childrenFront={
                                             <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
-                                                <Icon name={IconName.Film} width={'2.4rem'} height={'2.4rem'} />
+                                                <Icon name={IconName.Film} width={'2.4rem'} height={'2.4rem'} fill={'white'}  />
                                                 <div className={'font-title h6 mt-3 upper'}>VOICEOVER, POST & FILM</div>
                                             </div>
                                         }
                                         childrenBack={
-                                            <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
+                                            <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center p-4'}>
                                                 <div className={'font-title h5 mb-2 upper'}>VOICEOVER, POST & FILM</div>
                                                 <div className={'font-secondary h6 lh-1.25 color-light'}>ADR & voiceovers</div>
                                                 <div className={'font-secondary h6 lh-1.25 color-light'}>Podcasts & audiobooks</div>
@@ -134,12 +137,12 @@ export class Info extends Page<InfoProps> {
                                     <FlipCard className={'info-thumbnail-small color-white btn-box animated w-100 d-flex flex-column justify-content-center align-items-center'}
                                         childrenFront={
                                             <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
-                                                <Icon name={IconName.Film} width={'2.4rem'} height={'2.4rem'} />
+                                                <Icon name={IconName.Film} width={'2.4rem'} height={'2.4rem'} fill={'white'}  />
                                                 <div className={'font-title h6 mt-3 upper'}>PRODUCTION & COMPOSITION</div>
                                             </div>
                                         }
                                         childrenBack={
-                                            <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
+                                            <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center p-4'}>
                                                 <div className={'font-title h5 mb-2 upper'}>PRODUCTION & COMPOSITION</div>
                                                 <div className={'font-secondary h6 lh-1.25 color-light'}>Create custom instrumentals</div>
                                                 <div className={'font-secondary h6 lh-1.25 color-light'}>Polish & add to existing tracks</div>
@@ -161,14 +164,14 @@ export class Info extends Page<InfoProps> {
                                     onMouseOver={() => Shout.publish(shouts.PAGE_SCROLL_OFF)}
                                     onMouseOut={() => Shout.publish(shouts.PAGE_SCROLL_ON)}
                                 >
-                                    <FlipCard ref={r => this.nyGearFlipCard = r!} flipOnClick={'back'} className={'w-100 info-thumbnail-long color-white btn-box p-0'}
+                                    <FlipCard ref={r => this.nyGearFlipCardDesktop = r!} flipOnClick={'back'} className={'w-100 info-thumbnail-long color-white btn-box p-0'}
                                         childrenFront={
                                             <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
-                                                <Icon name={IconName.NewYork} width={'4rem'} height={'4rem'} />
+                                                <Icon name={IconName.NewYork} width={'4rem'} height={'4rem'} fill={'white'}  />
                                                 <div className={'font-title h6 mt-3 mb-4 upper'}>NEW YORK</div>
-                                                <button onClick={() => this.onNYGear('A')} className={'h1 btn font-bold font-secondary mt-3 upper color-light clickable animated'}>ROOM A GEAR</button>
-                                                <button onClick={() => this.onNYGear('B')} className={'h1 btn font-bold font-secondary mt-1 upper color-light clickable animated'}>ROOM B GEAR</button>
-                                                <button onClick={() => this.onNYGear('C')} className={'h1 btn font-bold font-secondary mt-1 upper color-light clickable animated'}>ROOM C GEAR</button>
+                                                <Button onClick={() => this.onNYGear('A')} className={'h1 btn font-bold font-secondary mt-3 upper color-light clickable animated'} text={'ROOM A GEAR'} />
+                                                <Button onClick={() => this.onNYGear('B')} className={'h1 btn font-bold font-secondary mt-1 upper color-light clickable animated'} text={'ROOM B GEAR'} />
+                                                <Button onClick={() => this.onNYGear('C')} className={'h1 btn font-bold font-secondary mt-1 upper color-light clickable animated'} text={'ROOM C GEAR'} />
                                             </div>
                                         }
                                         childrenBack={
@@ -177,7 +180,7 @@ export class Info extends Page<InfoProps> {
                                                 <div className={'font-title h4 upper m-0 mb-3'}>ROOM {this.state.nyGearPage} GEAR</div>
                                                 {
                                                     this.state.nyGearPage === 'A' &&
-                                                        <Fragment>
+                                                        <>
                                                             <div className={'h8 color-light overflow-auto p-3'}>
                                                                 <div className={'font-title h6 mb-1 upper'}>COMPUTER</div>
                                                                 Apple iMac Pro
@@ -241,32 +244,32 @@ export class Info extends Page<InfoProps> {
                                                                 Acorn Masterkey 61,
                                                                 Akai LPK251
                                                             </div>
-                                                        </Fragment>
+                                                        </>
                                                     }
                                                         {
                                                             this.state.nyGearPage === 'B' &&
-                                                            <Fragment>
+                                                            <>
                                                                 
-                                                            </Fragment>
+                                                            </>
                                                         }
                                                         {
                                                             this.state.nyGearPage === 'C' &&
-                                                            <Fragment>
+                                                            <>
                                                                 
-                                                            </Fragment>
+                                                            </>
                                                         }
                                             </div>
                                         }
                                     />
                                 </div>
                                 <div className={'col-6 pl-1 pr-1'}>
-                                    <FlipCard ref={r => this.laGearFlipCard = r!} flipOnClick={'back'} className={'info-thumbnail-long color-white btn-box animated w-100 d-flex flex-column justify-content-center align-items-center p-0'}
+                                    <FlipCard ref={r => this.laGearFlipCardDesktop = r!} flipOnClick={'back'} className={'info-thumbnail-long color-white btn-box animated w-100 d-flex flex-column justify-content-center align-items-center p-0'}
                                         childrenFront={
                                             <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
-                                                <Icon name={IconName.LosAngeles} width={'4rem'} height={'4rem'} />
+                                                <Icon name={IconName.LosAngeles} width={'4rem'} height={'4rem'} fill={'white'}  />
                                                 <div className={'font-title h6 mt-3 mb-4 upper'}>LOS ANGELES</div>
-                                                <button onClick={() => this.onLAGear('A')} className={'h1 btn font-bold font-secondary mt-3 upper color-light clickable animated'}>ROOM A GEAR</button>
-                                                <button onClick={() => this.onLAGear('B')} className={'h1 btn font-bold font-secondary mt-1 mb-4 upper color-light clickable animated'}>ROOM B GEAR</button>
+                                                <Button onClick={() => this.onLAGear('A')} className={'h1 btn font-bold font-secondary mt-3 upper color-light clickable animated'} text={'ROOM A GEAR'} />
+                                                <Button onClick={() => this.onLAGear('B')} className={'h1 btn font-bold font-secondary mt-1 mb-4 upper color-light clickable animated'} text={'ROOM B GEAR'} />
                                             </div>
                                         }
                                         childrenBack={
@@ -275,7 +278,7 @@ export class Info extends Page<InfoProps> {
                                                 <div className={'font-title h4 upper m-0 mb-3'}>ROOM {this.state.laGearPage} GEAR</div>
                                                 {
                                                     this.state.laGearPage === 'A' &&
-                                                    <Fragment>
+                                                    <>
                                                         <div className={'h8 color-light overflow-auto p-3'}>
                                                             <div className={'font-title h6 mb-1 upper'}>COMPUTER</div>
                                                             Mac Pro 3.5 GHz 6-Core
@@ -317,11 +320,11 @@ export class Info extends Page<InfoProps> {
                                                             Shure SM57 (x2),
                                                             Telefunken AR-51
                                                         </div>
-                                                    </Fragment>
+                                                    </>
                                                 }
                                                 {
                                                     this.state.laGearPage === 'B' &&
-                                                    <Fragment>
+                                                    <>
                                                         <div className={'h8 color-light'}>
                                                             <div className={'font-title h6 mb-1 upper'}>COMPUTER</div>
                                                             Mac Mini
@@ -350,7 +353,7 @@ export class Info extends Page<InfoProps> {
                                                             Shure SM57 (x2),
                                                             Telefunken AR-51
                                                         </div>
-                                                    </Fragment>
+                                                    </>
                                                 }
                                             </div>
                                         }
@@ -364,13 +367,13 @@ export class Info extends Page<InfoProps> {
                         <div className={'info-page pl-4 pr-4'}>
                             <div className={'row p-0 '}>
                                 <div className={'col-12 pl-1 pr-1'}>
-                                    <FlipCard ref={r => this.nyGearFlipCard = r!} flipOnClick={'both'} className={'w-100 info-thumbnail-wide color-white btn-box'}
+                                    <FlipCard flipOnClick={'both'} className={'w-100 info-thumbnail-wide color-white btn-box'}
                                         childrenFront={
                                             <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
                                                 <div className={'h7 upper mt-3'}>FLOOR PLAN</div>
                                                 <div className={'font-title h4 upper m-0 mb-3'}>NEW YORK</div>
                                                 <Image src="assets/floorplans/ny.png" alt="New York Floor Plan" className={'w-100'} />
-                                                <div className={'font-title H7 upper m-0 mt-3 mb-3 color-medium'}>PRESS TO VIEW LOS ANGELES</div>
+                                                <div className={'font-title H7 upper m-0 mt-3 mb-3 color-medium'}>CLICK TO VIEW LOS ANGELES</div>
                                             </div>
                                         }
                                         childrenBack={
@@ -378,7 +381,7 @@ export class Info extends Page<InfoProps> {
                                                 <div className={'h7 upper mt-3'}>FLOOR PLAN</div>
                                                 <div className={'font-title h4 upper m-0 mb-3'}>LOS ANGELES</div>
                                                 <Image src="assets/floorplans/la.png" alt="Los Angeles Floor Plan" className={'w-100'} />
-                                                <div className={'font-title H7 upper m-0 mt-3 mb-3 color-medium'}>PRESS TO VIEW NEW YORK</div>
+                                                <div className={'font-title H7 upper m-0 mt-3 mb-3 color-medium'}>CLICK TO VIEW NEW YORK</div>
                                             </div>
                                         }
                                     />
@@ -391,13 +394,13 @@ export class Info extends Page<InfoProps> {
                         <div className={'info-page pl-4 pr-4'}>
                             <div className={'row p-0 '}>
                                 <div className={'col-12 pl-1 pr-1'}>
-                                    <FlipCard ref={r => this.nyGearFlipCard = r!} flipOnClick={'both'} className={'w-100 info-thumbnail-wide color-white btn-box'}
+                                    <FlipCard flipOnClick={'both'} className={'w-100 info-thumbnail-wide color-white btn-box'}
                                         childrenFront={
                                             <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
                                             <div className={'h7 upper mt-3'}>BREWERY RECORDING STUDIO</div>
                                             <div className={'font-title h4 upper m-0 mb-4'}>HISTORY</div>
                                                 <Image src="assets/history/team.jpg" alt="Team" className={'w-50'} />
-                                                <div className={'font-title H7 upper m-0 mt-3 mb-3 color-medium'}>PRESS TO TIME TRAVEL</div>
+                                                <div className={'font-title H7 upper m-0 mt-3 mb-3 color-medium'}>CLICK TO TIME TRAVEL</div>
                                             </div>
                                         }
                                         childrenBack={
@@ -458,7 +461,7 @@ export class Info extends Page<InfoProps> {
                             <FlipCard className={'info-thumbnail-mobile btn-box animated'}
                                 childrenFront={
                                     <div className={'h-100 p-4 d-flex flex-column justify-content-center align-items-center'}>
-                                        <Icon name={IconName.Microphone} width={'2rem'} height={'4rem'} />
+                                        <Icon name={IconName.Microphone} width={'2rem'} height={'4rem'} fill={'white'}  />
                                         <div className={'font-title h6 mt-3 upper'}>RECORDING & EDITING</div>
                                     </div>
                                 }
@@ -491,7 +494,7 @@ export class Info extends Page<InfoProps> {
                             <FlipCard className={'info-thumbnail-mobile btn-box animated'}
                                 childrenFront={
                                     <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
-                                        <Icon name={IconName.Film} width={'2.4rem'} height={'2.4rem'} />
+                                        <Icon name={IconName.Film} width={'2.4rem'} height={'2.4rem'} fill={'white'}  />
                                         <div className={'font-title h6 mt-3 upper'}>VOICEOVER, POST & FILM</div>
                                     </div>
                                 }
@@ -508,7 +511,7 @@ export class Info extends Page<InfoProps> {
                             <FlipCard className={'info-thumbnail-mobile btn-box animated'}
                                 childrenFront={
                                     <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
-                                        <Icon name={IconName.Film} width={'2.4rem'} height={'2.4rem'} />
+                                        <Icon name={IconName.Film} width={'2.4rem'} height={'2.4rem'} fill={'white'}  />
                                         <div className={'font-title h6 mt-3 upper'}>PRODUCTION & COMPOSITION</div>
                                     </div>
                                 }
@@ -527,12 +530,14 @@ export class Info extends Page<InfoProps> {
                     {
                         page === 'gear' &&
                         <div className={'info-thumbnail-container pl-4 pr-4'}>
-                            <FlipCard ref={r => this.nyGearFlipCard = r!} flipOnClick={'both'} className={'info-thumbnail-mobile color-white btn-box animated d-flex flex-column justify-content-center align-items-center'}
+                            <FlipCard ref={r => this.nyGearFlipCardMobile = r!} flipOnClick={'both'} className={'info-thumbnail-mobile color-white btn-box animated d-flex flex-column justify-content-center align-items-center'}
                                 childrenFront={
                                     <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
-                                        <Icon name={IconName.NewYork} width={'4rem'} height={'4rem'} />
+                                        <Icon name={IconName.NewYork} width={'4rem'} height={'4rem'} fill={'white'} />
                                         <div className={'font-title h6 mt-3 upper'}>NEW YORK</div>
-                                        <div className={'h1 btn font-bold font-secondary mt-2 upper color-light clickable animated'}>ROOM A GEAR</div>
+                                        <Button onClick={() => this.onNYGear('A', true)} className={'h1 btn font-bold font-secondary mt-3 upper color-light clickable animated'} text={'ROOM A GEAR'} />
+                                        <Button onClick={() => this.onNYGear('B', true)} className={'h1 btn font-bold font-secondary mt-1 upper color-light clickable animated'} text={'ROOM B GEAR'} />
+                                        <Button onClick={() => this.onNYGear('C', true)} className={'h1 btn font-bold font-secondary mt-1 upper color-light clickable animated'} text={'ROOM C GEAR'} />
                                     </div>
                                 }
                                 childrenBack={
@@ -605,13 +610,13 @@ export class Info extends Page<InfoProps> {
                                     </div>
                                 }
                             />
-                            <FlipCard ref={r => this.laGearFlipCard = r!} flipOnClick={'back'} className={'info-thumbnail-mobile color-white btn-box animated d-flex flex-column justify-content-center align-items-center'}
+                            <FlipCard ref={r => this.laGearFlipCardMobile = r!} flipOnClick={'back'} className={'info-thumbnail-mobile color-white btn-box animated d-flex flex-column justify-content-center align-items-center'}
                                 childrenFront={
                                     <div className={'w-100 h-100 d-flex flex-column justify-content-center align-items-center'}>
-                                        <Icon name={IconName.LosAngeles} width={'4rem'} height={'4rem'} />
+                                        <Icon name={IconName.LosAngeles} width={'4rem'} height={'4rem'} fill={'white'}  />
                                         <div className={'font-title h6 mt-3 mb-4 upper'}>LOS ANGELES</div>
-                                        <button onClick={() => this.onLAGear('A')} className={'h1 btn font-bold font-secondary mt-3 upper color-light clickable animated'}>ROOM A GEAR</button>
-                                        <button onClick={() => this.onLAGear('B')} className={'h1 btn font-bold font-secondary mt-1 mb-4 upper color-light clickable animated'}>ROOM B GEAR</button>
+                                        <Button onClick={() => this.onLAGear('A', true)} className={'h1 btn font-bold font-secondary mt-3 upper color-light clickable animated'} text={'ROOM A GEAR'} />
+                                        <Button onClick={() => this.onLAGear('B', true)} className={'h1 btn font-bold font-secondary mt-1 mb-4 upper color-light clickable animated'} text={'ROOM B GEAR'} />
                                     </div>
                                 }
                                 childrenBack={
@@ -767,13 +772,13 @@ export class Info extends Page<InfoProps> {
     }
 
     // Set the current room gear being viewed in NY
-    private onNYGear = (room:'A'|'B'|'C') => {
-        this.setState({ nyGearPage: room }, () => this.nyGearFlipCard.flip())
+    private onNYGear = (room:'A'|'B'|'C', isMobile = false) => {
+        this.setState({ nyGearPage: room }, isMobile ? this.nyGearFlipCardMobile.flip : this.nyGearFlipCardDesktop.flip)
     }
 
     // Set the current room gear being viewed in LA
-    private onLAGear = (room:'A'|'B') => {
-        this.setState({ laGearPage: room }, () => this.laGearFlipCard.flip())
+    private onLAGear = (room:'A'|'B', isMobile = false) => {
+        this.setState({ laGearPage: room }, isMobile ? this.laGearFlipCardMobile.flip : this.laGearFlipCardDesktop.flip)
     }
 
     private getMobileHeight = () => $('.info-thumbnail-mobile').get().length > 0 ? $('.info-thumbnail-mobile').get()[0].clientWidth * 1.2 : 0

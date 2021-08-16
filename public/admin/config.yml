@@ -41,11 +41,11 @@ collections:
       - {label: "Clients", name: "clients", widget: "list"}
       - {label: "Bio", name: "Bio", widget: "text"}
       - {label: "Photo", name: "photoURL", widget: "image"}
-      - {label: "Instagram URL", name: "instagramURL", widget: "string"}
-      - {label: "Twitter URL", name: "twitterURL", widget: "string"}
-      - {label: "Facebook URL", name: "facebookURL", widget: "string"}
-      - {label: "Sound Cloud URL", name: "soundCloudURL", widget: "string"}
-      - {label: "Website URL", name: "websiteURL", widget: "string"}
+      - {label: "Instagram URL", name: "instagramURL", widget: "string", optional: true}
+      - {label: "Twitter URL", name: "twitterURL", widget: "string", optional: true}
+      - {label: "Facebook URL", name: "facebookURL", widget: "string", optional: true}
+      - {label: "Sound Cloud URL", name: "soundCloudURL", widget: "string", optional: true}
+      - {label: "Website URL", name: "websiteURL", widget: "string", optional: true}
   - name: "studioGear"
     label: "Studio Gear"
     folder: "static/studioGears"
@@ -77,25 +77,25 @@ collections:
         widget: "object"
         collapsed: false
         fields: 
-        - {label: "Hourly (USD)", name: "hourlyUSD", widget: "number", value_type: "int", min: 1 }
-        - {label: "Half Day (USD)", name: "halfDayUSD", widget: "number", value_type: "int", min: 1 }
-        - {label: "Full Day (USD)", name: "fullDayUSD", widget: "number", value_type: "int", min: 1 }
+        - {label: "Hourly (USD)", name: "hourlyUSD", widget: "string" }
+        - {label: "Half Day (USD)", name: "halfDayUSD", widget: "string" }
+        - {label: "Full Day (USD)", name: "fullDayUSD", widget: "string" }
       - name: "w/ Producer Prices"
         label: "withProducerPrices"
         widget: "object"
         collapsed: false
         fields: 
-        - {label: "Hourly (USD)", name: "hourlyUSD", widget: "number", value_type: "int", min: 1 }
-        - {label: "Half Day (USD)", name: "halfDayUSD", widget: "number", value_type: "int", min: 1 }
-        - {label: "Full Day (USD)", name: "fullDayUSD", widget: "number", value_type: "int", min: 1 }
+        - {label: "Hourly (USD)", name: "hourlyUSD", widget: "string" }
+        - {label: "Half Day (USD)", name: "halfDayUSD", widget: "string" }
+        - {label: "Full Day (USD)", name: "fullDayUSD", widget: "string" }
       - name: "w/ Assistant Prices"
         label: "withAssistantPrices"
         widget: "object"
         collapsed: false
         fields: 
-        - {label: "Hourly (USD)", name: "hourlyUSD", widget: "number", value_type: "int", min: 1 }
-        - {label: "Half Day (USD)", name: "halfDayUSD", widget: "number", value_type: "int", min: 1 }
-        - {label: "Full Day (USD)", name: "fullDayUSD", widget: "number", value_type: "int", min: 1 }
+        - {label: "Hourly (USD)", name: "hourlyUSD", widget: "string" }
+        - {label: "Half Day (USD)", name: "halfDayUSD", widget: "string" }
+        - {label: "Full Day (USD)", name: "fullDayUSD", widget: "string" }
       - name: "Specials"
         label: "specials"
         widget: "list"
@@ -103,6 +103,6 @@ collections:
         - {label: "Name", name: "name", widget: "string" }
         - {label: "Schedule", name: "schedule", widget: "string", default: "7AM - 12AM daily" }
         - {label: "Caption", name: "caption", widget: "string", default: "w/ Engineer" }
-        - {label: "Hourly (USD)", name: "hourlyUSD", widget: "number", value_type: "int", min: 1 }
-        - {label: "Half Day (USD)", name: "halfDayUSD", widget: "number", value_type: "int", min: 1 }
-        - {label: "Full Day (USD)", name: "fullDayUSD", widget: "number", value_type: "int", min: 1 }
+        - {label: "Hourly (USD)", name: "hourlyUSD", widget: "string", optional: true }
+        - {label: "Half Day (USD)", name: "halfDayUSD", widget: "string", optional: true }
+        - {label: "Full Day (USD)", name: "fullDayUSD", widget: "string", optional: true }

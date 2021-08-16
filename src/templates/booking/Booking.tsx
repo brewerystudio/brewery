@@ -67,8 +67,8 @@ export class Booking extends Page<BookingProps> {
 
     public renderDesktop = () => {
         return (
-            <div className={'wrapper d-flex flex-column justify-content-between pl-4 pr-4 mt-4 mb-4'}>
-                <div className={'d-flex flex-column justify-content-between p-4 mt-4 btn-box inactive'}>
+            <div className={'wrapper d-flex flex-column justify-content-between pl-4 pr-4 mb-4'}>
+                <div className={'d-flex flex-column justify-content-between p-4 btn-box inactive'}>
                     <div className={'mb-4'}>
                         <div className={'color-white font-title upper h1 mt-0'}>
                             BOOKING
